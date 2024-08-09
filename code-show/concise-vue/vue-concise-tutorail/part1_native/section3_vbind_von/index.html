@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@latest"></script>
+  </head>
+
+  <body>
+    <div id="demo">
+      <!-- 属性绑定 -->
+      <h1 :class="textColor">demo</h1>
+
+      <select v-model="textColor">
+        <option value="red-text">Red</option>
+        <option value="blue-text">Blue</option>
+      </select>
+
+      <!-- 属性绑定：每次点击后，按钮就变为不可用状态 (事件监听 绑定方法) -->
+      <button :disabled="btnDisable" @click="handleClick">Click</button>
+    </div>
+
+    <script>
+      const app = {
+        data() {
+          return {
+            textColor: "red-text",
+            btnDisable: false,
+          };
+        },
+
+        methods: {
+          handleClick() {
+            this.btnDisable = true; // 对象类处理 访问类属性用this
+          },
+        },
+      };
+      Vue.createApp(app).mount("#demo");
+    </script>
+  </body>
+</html>

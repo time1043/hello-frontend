@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@latest"></script>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="demo">
+      <input type="text" v-model.lazy="text" />
+      <p>{{ text.split("").reverse().join("") }}</p>
+    </div>
+
+    <hr />
+    <div>
+      <input type="text" class="input-text" />
+      <p class="p-text"></p>
+    </div>
+
+    <script src="vanilla.js"></script>
+    <script src="vue.js"></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@latest"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <form>
+        <input
+          type="text"
+          placeholder="enter your username"
+          v-model.lazy="username"
+          :class="username_is_error"
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="enter your password"
+          v-model.lazy="password"
+          :class="password_is_error"
+        />
+
+        <br />
+        <button type="submit" @click.prevent="submit">Login</button>
+      </form>
+    </div>
+
+    <script>
+      // vue实例对象 变量绑定
+      const app = {
+        data() {
+          return {
+            // 绑定变量  数据变量(驼峰命名)
+            username: "",
+            password: "",
+            // 绑定属性  和ui线管变量(下划线命名)
+            username_is_error: "",
+            password_is_error: "",
+          };
+        },
+
+        methods: {
+          submit() {
+            // 重置 输入框错误警报
+            this.password_is_error = this.username_is_error = "";
+
+            // 校验
+            if (this.username.length < 3 || this.password.length < 3) {
+              // 输入框错误警报
+              if (this.username.length < 3) {
+                this.username_is_error = "input-error";
+              }
+              if (this.password.length < 3) {
+                this.password_is_error = "input-error";
+              }
+              // 弹窗 失败
+              alert("The input length samaller than 3");
+              return;
+            }
+
+            // 弹窗 成功
+            alert(
+              `Your input is username: ${this.username} and password: ${this.password}`
+            );
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>

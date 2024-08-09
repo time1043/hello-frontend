@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/vue@latest"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <form>
+        <h1>{{title}}</h1>
+        <input
+          type="text"
+          placeholder="enter your username"
+          v-model.lazy="username"
+          :class="username_is_error"
+          @input="usernameValidate"
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="enter your password"
+          v-model.lazy="password"
+          :class="password_is_error"
+          @input="passwordValidate"
+        />
+
+        <br />
+        <button type="submit" @click.prevent="submit">Login</button>
+      </form>
+    </div>
+
+    <script>
+      const app = {
+        data() {
+          return {
+            title: "table",
+            username: "",
+            password: "",
+            username_is_error: "",
+            password_is_error: "",
+          };
+        },
+
+        methods: {
+          submit() {
+            this.password_is_error = this.username_is_error = "";
+
+            if (this.username.length < 3 || this.password.length < 3) {
+              if (this.username.length < 3) {
+                this.username_is_error = "input-error";
+              }
+              if (this.password.length < 3) {
+                this.password_is_error = "input-error";
+              }
+
+              alert("The input length samaller than 3");
+              return;
+            }
+
+            alert(
+              `Your input is username: ${this.username} and password: ${this.password}`
+            );
+          },
+
+          // 动态校验 原生的
+          usernameValidate() {
+            // this.username_is_error = "";
+            // if (this.username.length < 3) {
+            //   this.username_is_error = "input-error";
+            // }
+          },
+          passwordValidate() {
+            // this.password_is_error = "";
+            // if (this.password.length < 3) {
+            //   this.password_is_error = "input-error";
+            // }
+          },
+        },
+
+        watch: {
+          username(val, _oldVal) {
+            this.username_is_error = "";
+            this.title = "table"; // title
+            if (val.length < 3) {
+              this.username_is_error = "input-error";
+              this.title = "error occur"; // title
+            }
+          },
+          password(val, _oldVal) {
+            this.password_is_error = "";
+            this.title = "table"; // title
+            if (val.length < 3) {
+              this.password_is_error = "input-error";
+              this.title = "error occur"; // title
+            }
+          },
+          title(val, oldVal) {
+            if (val === oldVal) {
+              return;
+            }
+            if (oldVal === "error occur") {
+              alert("input valid");
+              return;
+            }
+            alert("input error");
+          },
+        },
+      };
+      Vue.createApp(app).mount("#app");
+    </script>
+  </body>
+</html>
