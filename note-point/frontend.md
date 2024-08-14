@@ -540,17 +540,880 @@
 
 ## TypeScript
 
+接口
+
+类和模块
+
+
+
+### 概念
+
+- 什么是ts
+
+  TypeScript 由微软开发，是基于 JavaScript 的⼀个**扩展语⾔**
+
+  TypeScript 包含了 JavaScript 的所有内容，即TypeScript 是 JavaScript 的**超集**
+
+  TypeScript 增加了：静态类型检查、接⼝、 泛型等很多**现代开发特性**，更适合**⼤型项目的开发**
+
+  TypeScript 需要编译为 JavaScript ，然后交给浏览器或其他 JavaScript 运⾏环境执⾏
+
+- 为什么要学ts
+
+  JavaScript 今非昔比 (全栈：前端、后端、移动端、桌面端；代码量丰富)
+
+  JavaScript 当年出⽣简陋 
+
+  
+
+
+
+#### js困扰
+
+- 不清楚的数据类型
+
+  ```js
+  let welcome = 'hello'
+  welcome(); // 此⾏报错：TypeError: welcome is not a function
+  ```
+
+  有漏洞的逻辑
+
+  ```js
+  const str = Date.now() % 2 ? "奇数" : "偶数";
+  if (str !== "奇数") {
+    alert("hello");
+  } else if (str === "偶数") {
+    alert("world");  // 这辈子都运行不了
+  }
+  ```
+
+  访问不存在的属性
+
+  ```js
+  const obj = { width: 10, height: 15 };
+  const area = obj.width * obj.heigth;  // height
+  ```
+
+  低级的拼写错误
+
+  ```js
+  const message = "Hello,World";
+  message.toUperCase(); // toUpperCase
+  ```
+
+  
+
+
+
+---
+
+- ts静态类型检查
+
+  ```typescript
+  // ts 静态类型检查：在代码运⾏前进⾏检查，发现代码的错误或不合理之处，减⼩运⾏时出现异常的⼏率
+  // 把运行时的错误前置
+  let welcome = "hello";
+  welcome();
+  
+  // js 运行时错误
+  
+  ```
+
+  
+
+
+
+#### 编译ts
+
+- 命令行编译
+
+  ```bash
+  npm i typescript -g
+  tsc main.ts
+  
+  ```
+
+  ⾃动化编译
+
+  ```bash
+  # 创建 TypeScript 编译控制⽂件
+  tsc --init  # tsconfig.json 编译时配置  # 默认编译的js版本是ES7
+  
+  
+  # 监视⽬录中的.ts⽂件变化
+  tsc --watch  # tsconfig.json # noEmitOnError
+  # ⼩优化，当编译出错时不⽣成.js⽂件
+  tsc --noEmitOnError --watch  
+  
+  ```
+
+- 脚手架基于webpack vite (开箱即用)
+
+  
+
+
+
 ### 类型系统
 
+#### 类型声明和类型推断
+
+- 类型声明
+
+  ```typescript
+  // =============================================
+  // 类型声明：限制变量
+  // =============================================
+  let a: string = "hello";
+  let b: number;
+  let c: boolean;
+  
+  a = "world";
+  // a = 9;  // Type 'number' is not assignable to type 'string'
+  // a = false;  // Type 'boolean' is not assignable to type 'string'
+  
+  b = -99;
+  c = true;
+  console.log(a, b, c);
+  
+  // =============================================
+  // 类型声明：限制函数的参数和返回值类型
+  // =============================================
+  function add(a: number, b: number): number {
+    return a + b;
+  }
+  let res = add(1, 3);
+  console.log(res);
+  
+  ```
+
+- 类型推断 (复杂的推断失误)
+
+  ```typescript
+  // =============================================
+  // 类型推断
+  // =============================================
+  let a = -99; // a:number
+  // a = "hello"; // Type 'string' is not assignable to type 'number'
+  
+  ```
+
+  
+
+
+
+#### 声明变量的关键字
+
+- 声明变量的关键字 (ES6+)
+
+  `var`：用于声明一个**变量**，作用域可以是全局或函数局部。存在*变量提升现象 hoisting*。
+
+  `let`：用于声明一个**块级作用域**的**局部变量**。不存在*变量提升*，存在*暂时性死区 temporal dead zone*。
+
+  `const`：用于声明一个**块级作用域**的**常量**。声明时**必须初始化**，且不能重新赋值。不存在*变量提升*，存在*暂时性死区*。
+
+- *变量提升现象 hoisting*
+
+  ```js
+  // =============================================
+  // 变量提升 (var)
+  // =============================================
+  console.log(a); // 输出: undefined
+  var a = 10;
+  
+  // =============================================
+  // 函数提升
+  // =============================================
+  foo(); // 输出: "Hello, world!"
+  function foo() {
+    console.log("Hello, world!");
+  }
+  
+  ```
+
+- *暂时性死区 temporal dead zone*
+
+  ```js
+  // =============================================
+  // 暂时性死区：在变量声明之前，变量是不可访问的，即使在同一作用域内也是如此 (let const)
+  // =============================================
+  console.log(a); // ReferenceError: a is not defined
+  let a = 10;
+  
+  ```
+
+  
+
+
+
+#### 推荐原始类型
+
+- 推荐原始类型 不推荐包装对象
+
+  ```typescript
+  // =============================================
+  // 推荐string 不推荐String(麻烦 且内存不友好)
+  // =============================================
+  let a: string; // 基本类型的字符串
+  a = "hello";
+  // a = new String("hello"); // Type 'String' is not assignable to type 'string'.
+  // 'string' is a primitive, but 'String' is a wrapper object. Prefer using 'string' when possible.
+  
+  let b: String; // 字符串对应的包装对象 // 基本类型的字符串
+  b = "hello";
+  b = new String("hello");
+  
+  console.log(typeof a); // string
+  console.log(typeof b); // object
+  
+  // =============================================
+  // 推荐number 不推荐Number(麻烦 且内存不友好)
+  // =============================================
+  let c: number = 12;
+  console.log(c);
+  
+  let d: Number = new Number(12);
+  console.log(d.valueOf());
+  
+  // =============================================
+  // 自动装箱：原始类型 -> 包装对象(存在意义)
+  // =============================================
+  let str = "hello";
+  console.log(str.length); // 输出: 5  // string没有length属性
+  
+  // 当访问str.length时，JavaScript引擎做了以下⼯作：
+  let size = (function () {
+    // 1. ⾃动装箱：创建⼀个临时的String对象包装原始字符串
+    let tempStringObject = new String(str);
+    // 2. 访问String对象的length属性
+    let lengthValue = tempStringObject.length;
+    // 3. 销毁临时对象，返回⻓度值
+    // （JavaScript引擎⾃动处理对象销毁，开发者⽆感知）
+    return lengthValue;
+  })();
+  console.log(size); // 输出: 5
+  
+  ```
+
+  
+
+
+
+#### 类型总览 ✔
+
+- js数据类型
+
+  基本数据类型：`string`、`number`、`boolean`；`null`、`undefined`；`symbol`(ES6 唯一的不可变的值)
+
+  特殊类型：`bigint`(ES11 任意精度的整数)
+
+  复杂数据类型：`object`：`Array`、`Function`、`Date`、`Error` 等  
+
+- ts数据类型 (*js+*)
+
+  六个新类型：`any` (放弃类型检查)、`unknown`(类型安全)；`never`(任何值都不是)、`void`(函数不返回任何值)；`tuple`(固定数量 数组类型)、`enum`(⼀组命名常量)
+
+  ⾃定义类型：`type`(为任意类型创建别名)、`interface` 
+
+  
+
+
+
+---
+
+- 具体
+
+  **array**：数组类型，例如 `number[]` 或 `Array<number>`
+
+  **tuple**：固定长度和类型的数组，例如 `[string, number]`
+
+  **enum**：枚举类型，用于定义一组命名的常量。
+
+  **function**：函数类型，例如 `(a: number, b: number) => number`
+
+  
+
+
+
+#### any unknown
+
+- any 
+
+  ```typescript
+  // =============================================
+  // any：放弃类型检查
+  // =============================================
+  let a: any; // 显式any
+  a = 99;
+  a = "hello";
+  a = false;
+  
+  let b; // 隐式any
+  b = 99;
+  b = "hello";
+  b = false;
+  
+  // 类型不安全：any类型可以赋值给任意类型
+  let x: string; // x: string
+  x = a; // 一种破坏
+  console.log(typeof x); // x: boolean
+  console.log(x);
+  
+  ```
+
+- unknown
+
+  ```typescript
+  // =============================================
+  // unkown：类型安全的any (起初不确定数据的具体类型，要后期才能确定)
+  // =============================================
+  let c: unknown;
+  c = 100;
+  c = false;
+  c = "hello";
+  
+  // 类型安全
+  let y: string;
+  // y = c; // Type 'unknown' is not assignable to type 'string'
+  
+  // solution1: 加类型判断
+  if (typeof c === "string") {
+    y = c;
+  }
+  // solution2: 加断言
+  y = c as string;
+  // solution3: 加断言
+  y = <string>c;
+  
+  // =============================================
+  // any读取任何类型无警告 unknown不允许
+  // =============================================
+  let str1: string;
+  str1 = "Hello";
+  str1.toUpperCase();
+  
+  let str2: any;
+  str2 = "Hello";
+  str2.toUpperCase(); // 无警告
+  
+  let str3: unknown;
+  str3 = "Hello";
+  // str3.toUpperCase(); // 警告  // 'str3' is of type 'unknown'
+  
+  // solution：断言 强制指定str3的类型为string
+  (str3 as string).toUpperCase(); // 无警告
+  
+  ```
+
+  
+
+
+
+#### never void
+
+- never
+
+  ```typescript
+  // =============================================
+  // never：任何值都不是 (一般不用)
+  // =============================================
+  
+  // 不能存储任何数据
+  let a: never;
+  // a = 12; // err
+  // a = "hello"; // err
+  // a = true; // err
+  
+  // 一般ts主动推断
+  let b: string = "hello";
+  if (typeof b === "string") {
+    console.log(b.toUpperCase());
+  } else {
+    console.log(b); // TypeScript会推断出此处的b是never，因为没有任何⼀个值符合此处的逻辑
+  }
+  
+  // 可⽤于限制函数的返回值 (任何值都不⾏，像undeifned、null都不⾏)
+  function throwError(str: string): never {
+    throw new Error("程序异常退出:" + str);
+  }
+  
+  ```
+
+- void
+
+  ```typescript
+  // =============================================
+  // void：含义是空，即函数不返回任何值，调⽤者也不应依赖其返回值进⾏任何操作
+  // =============================================
+  
+  // ⽤于函数返回值声明
+  function logMessage(msg: string): void {
+    console.log(msg);
+    // 无 return 指定函数返回值，即无显式返回值
+    // 但有隐式返回值，undefined (void可以接受undefined)  //  undefined 是 void 可以接受的⼀种“空”
+  }
+  logMessage("你好");
+  
+  // 符合规范
+  function logMessage2(msg: string): void {
+    console.log(msg);
+  }
+  function logMessage3(msg: string): void {
+    console.log(msg);
+    return;
+  }
+  function logMessage4(msg: string): void {
+    console.log(msg);
+    return undefined;
+  }
+  
+  // =============================================
+  // undefined 和 void 区别
+  // =============================================
+  
+  // 返回值类型为 void 的函数，调⽤者不应依赖其返回值进⾏任何操作
+  function logMessage5(msg: string): void {
+    console.log(msg);
+  }
+  let result5 = logMessage5("你好");
+  // if (result5) {  // 此⾏报错：⽆法测试 "void" 类型的表达式的真实性
+  //   console.log("logMessage有返回值");
+  // }
+  
+  function logMessage6(msg: string): undefined {
+    console.log(msg);
+  }
+  let result6 = logMessage6("你好");
+  if (result6) {
+    // 此⾏⽆警告
+    console.log("logMessage有返回值");
+  }
+  
+  // void 是⼀个⼴泛的概念，⽤来表达“空”，⽽ undefined 则是这种“空”的具体实现。
+  // undefined 是 void 能接受的“空”状态的⼀种具体形式
+  // void 包含 undefined，但 void 表达的语义超越了单纯的 undefined，它是⼀种意图上的约定，⽽不仅仅是特定值的限制
+  
+  // 如果⼀个函数返回类型为 void
+  // 从语法上讲：函数是可以返回 undefined 的，⾄于显式返回，还是隐式返回，这⽆所谓！
+  // 从语义上讲：函数调⽤者不应关⼼函数返回的值，也不应依赖返回值进⾏任何操作！即使我们知道它返回了 undefined
+  
+  ```
+
+  
+
+
+
+#### 声明对象 声明函数 声明数组
+
+- 声明对象
+
+  ```typescript
+  // =============================================
+  // 声明对象类型
+  // =============================================
+  // 限制person1对象必须有name属性，age为可选属性
+  let person1: { name: string; age?: number };
+  // 含义同上，也能⽤分号做分隔
+  let person2: { name: string; age?: number };
+  // 含义同上，也能⽤换⾏做分隔
+  let person3: {
+    name: string;
+    age?: number;
+  };
+  
+  // 如下赋值均可以
+  person1 = { name: "李四", age: 18 };
+  person2 = { name: "张三" };
+  person3 = { name: "王五" };
+  
+  // // 如下赋值不合法，因为person3的类型限制中，没有对gender属性的说明
+  // person3 = { name: "王五", gender: "男" };
+  
+  // =============================================
+  // 索引签名 (对象可有任意数量的属性，且属性的键和类型是可变的)
+  // =============================================
+  // 限制person对象必须有name属性，可选age属性但值必须是数字，同时可以有任意数量、任意类型的其他属性
+  let person: {
+    name: string;
+    age?: number;
+    [key: string]: any; // 索引签名，完全可以不⽤key这个单词，换成其他的也可以
+  };
+  // 赋值合法
+  person = {
+    name: "张三",
+    age: 18,
+    gender: "男",
+    address: "北京",
+  };
+  
+  ```
+
+- 声明函数
+
+  ts`=>` 函数签名
+
+  ```typescript
+  // =============================================
+  // 声明函数类型
+  // =============================================
+  let add: (a: number, b: number) => number; // 函数签名(函数名、入参、返回值类型)
+  add = function (x, y) {
+    return x + y;
+  };
+  
+  // TypeScript 中的 => 在函数类型声明时表示函数类型，描述其参数类型和返回类型
+  // JavaScript 中的 => 是⼀种定义函数的语法，是具体的函数实现
+  // 函数类型声明还可以使⽤：接⼝、⾃定义类型等⽅式 ...
+  
+  ```
+
+  js`=>` 定义函数的语法
+
+  ```js
+  // 1
+  let add; 
+  add = function (x, y) {
+      return x + y;
+  };
+  
+  // 2
+  let add = (x, y) => {
+    return x + y;
+  };
+  
+  // 3
+  let add = (x, y) => x + y;
+  
+  ```
+
+- 声明数组
+
+  ```typescript
+  // =============================================
+  // 声明数组类型
+  // =============================================
+  let arr1: string[];
+  let arr2: Array<string>; // 泛型 ...
+  arr1 = ["a", "b", "c"];
+  arr2 = ["hello", "world"];
+  
+  ```
+
+  
+
+
+
+---
+
+- obejct Object (用得的少)
+
+  ```typescript
+  // =============================================
+  // obejct：所有⾮原始类型 (可存储对象、函数、数组等)
+  // 由于限制的范围⽐较宽泛，在实际开发中使⽤的相对较少
+  // =============================================
+  
+  let a: object;
+  
+  // 以下代码，是将【⾮原始类型】赋给a，所以均符合要求
+  a = {};
+  a = { name: "张三" };
+  a = [1, 3, 5, 7, 9];
+  a = function () {};
+  a = new String("123");
+  class Person {}
+  a = new Person();
+  
+  // // 以下代码，是将【原始类型】赋给a，有警告
+  // a = 1; // 警告：不能将类型“number”分配给类型“object”
+  // a = true; // 警告：不能将类型“boolean”分配给类型“object”
+  // a = "你好"; // 警告：不能将类型“string”分配给类型“object”
+  // a = null; // 警告：不能将类型“null”分配给类型“object”
+  // a = undefined; // 警告：不能将类型“undefined”分配给类型“object”
+  
+  // =============================================
+  // Obejct：所有可以调⽤ Object ⽅法的类型 (除了 undefined 和 null 的任何值)
+  // 由于限制的范围实在太⼤了！所以实际开发中使⽤频率极低
+  // =============================================
+  let b: Object;
+  
+  // 以下代码，均⽆警告，因为给a赋的值，都是Object的实例对象
+  b = {};
+  b = { name: "张三" };
+  b = [1, 3, 5, 7, 9];
+  b = function () {};
+  b = new String("123");
+  class Person2 {}
+  b = new Person();
+  b = 1; // 1不是Object的实例对象，但其包装对象是Object的实例
+  b = true; // truue不是Object的实例对象，但其包装对象是Object的实例
+  b = "你好"; // “你好”不是Object的实例对象，但其包装对象是Object的实例
+  
+  // // 以下代码均有警告
+  // b = null; // 警告：不能将类型“null”分配给类型“Object”
+  // b = undefined; // 警告：不能将类型“undefined”分配给类型“Object”
+  
+  ```
+
+  
+
+
+
+#### tuple
+
+- tuple  
+
+  ```typescript
+  // =============================================
+  // 元组Tuple 是⼀种特殊的数组类型，存储固定数量的元素，且每个元素的类型是已知的且可以不同
+  // 元组⽤于精确描述⼀组值的类型，?表示可选元素
+  // =============================================
+  
+  // 第⼀个元素必须是 string 类型，第⼆个元素必须是 number 类型。
+  let arr1: [string, number];
+  // 第⼀个元素必须是 number 类型，第⼆个元素是可选的，如果存在，必须是 boolean 类型。
+  let arr2: [number, boolean?];
+  // 第⼀个元素必须是 number 类型，后⾯的元素可以是任意数量的 string 类型
+  let arr3: [number, ...string[]];
+  
+  // 可以赋值
+  arr1 = ["hello", 123];
+  arr2 = [100, false];
+  arr2 = [200];
+  arr3 = [100, "hello", "world"];
+  arr3 = [100];
+  
+  // // 不可以赋值，arr1声明时是两个元素，赋值的是三个
+  // arr1 = ["hello", 123, false];
+  
+  ```
+  
+  
+
+
+
+#### enum
+
+- 场景
+
+  ```typescript
+  // =============================================
+  // 枚举enum 可定义⼀组命名常量
+  // 增强代码的可读性、可维护性
+  // =============================================
+  
+  // 存在的问题是调⽤walk时传参时没有任何提示，编码者很容易写错字符串内容
+  // 并且⽤于判断逻辑的 up、down、left、right 是连续且相关的⼀组值
+  function walk(str: string) {
+    if (str === "up") {
+      console.log("向【上】⾛");
+    } else if (str === "down") {
+      console.log("向【下】⾛");
+    } else if (str === "left") {
+      console.log("向【左】⾛");
+    } else if (str === "right") {
+      console.log("向【右】⾛");
+    } else {
+      console.log("未知⽅向");
+    }
+  }
+  walk("up");
+  walk("down");
+  walk("left");
+  walk("right");
+  
+  ```
+  
+- 数字枚举
+
+  ```typescript
+  // =============================================
+  // 数字枚举
+  // 其成员的值会⾃动递增，且具备反向映射的特点 (可以通过值来获取对应的枚举成员名称)
+  // =============================================
+  enum Direction2 {
+    Up = 6, // ⾸次枚举成员默认值为0，后续成员会递增
+    Down,
+    Left,
+    Right,
+  }
+  console.log(Direction2); // {0: 'Up', 1: 'Down', 2: 'Left', 3: 'Right', Up: 0, Down: 1, Left: 2, Right: 3}
+  
+  // 反向映射
+  console.log(Direction2.Up); // 0
+  console.log(Direction2[0]); // Up
+  
+  // // 此⾏代码报错，枚举中的属性是只读的
+  // Direction.Up = "shang"; // Cannot assign to 'Up' because it is a read-only property
+  
+  function walk2(n: Direction2) {
+    if (n === Direction2.Up) {
+      console.log("向【上】⾛");
+    } else if (n === Direction2.Down) {
+      console.log("向【下】⾛");
+    } else if (n === Direction2.Left) {
+      console.log("向【左】⾛");
+    } else if (n === Direction2.Right) {
+      console.log("向【右】⾛");
+    } else {
+      console.log("未知⽅向");
+    }
+  }
+  walk2(Direction2.Up);
+  walk2(Direction2.Down);
+  
+  ```
+  
+- 字符串枚举
+
+  ```typescript
+  // =============================================
+  // 字符串枚举
+  // 枚举成员的值是字符串
+  // =============================================
+  enum Direction3 {
+    Up = "up",
+    Down = "down",
+    Left = "left",
+    Right = "right",
+  }
+  let dir: Direction3 = Direction3.Up;
+  console.log(dir); // up
+  
+  ```
+
+- 常量枚举
+
+  ```typescript
+  // =============================================
+  // 常量枚举
+  // 特殊枚举类型，⽤const关键字定义，在编译时会被内联，避免⽣成⼀些额外的代码
+  // =============================================
+  
+  // 普通枚举
+  enum Directions4 {
+    Up,
+    Down,
+    Left,
+    Right,
+  }
+  let x4 = Directions4.Up;
+  // // js
+  // var Directions4;
+  // (function (Directions4) {
+  //     Directions4[Directions4["Up"] = 0] = "Up";
+  //     Directions4[Directions4["Down"] = 1] = "Down";
+  //     Directions4[Directions4["Left"] = 2] = "Left";
+  //     Directions4[Directions4["Right"] = 3] = "Right";
+  // })(Directions4 || (Directions4 = {}));
+  // let x4 = Directions4.Up;
+  
+  // 常量枚举
+  const enum Directions5 {
+    Up,
+    Down,
+    Left,
+    Right,
+  }
+  let x5 = Directions5.Up;
+  // // js ✔
+  // "use strict";
+  // let x5 = 0 /* Directions5.Up */;
+  
+  ```
+
+  
+
+
+
+#### type
+
+- type
+
+  ```typescript
+  // =============================================
+  // type 为任意类型创建别名 (代码简洁性、可读性、复用性和扩展性)
+  // =============================================
+  type num = number;
+  let price: num;
+  price = 100;
+  
+  // =============================================
+  // 联合类型：⼀种⾼级类型，它表示⼀个值可以是⼏种不同类型之⼀
+  // =============================================
+  type Status = number | string;
+  function printStatus(status: Status) {
+    console.log(status);
+  }
+  printStatus(404);
+  printStatus("200");
+  printStatus("501");
+  
+  type Gender = "男" | "⼥";
+  function logGender(str: Gender) {
+    console.log(str);
+  }
+  logGender("男");
+  logGender("⼥");
+  
+  // =============================================
+  // 交叉类型 Intersection Types：允许将多个类型合并为⼀个类型
+  // 合并后的类型将拥有所有被合并类型的成员。交叉类型通常⽤于对象类型
+  // =============================================
+  
+  //⾯积
+  type Area = {
+    height: number; //⾼
+    width: number; //宽
+  };
+  //地址
+  type Address = {
+    num: number; //楼号
+    cell: number; //单元号
+    room: string; //房间号
+  };
+  
+  // 定义类型House，且House是Area和Address组成的交叉类型
+  type House = Area & Address;
+  const house: House = {
+    height: 180,
+    width: 75,
+    num: 6,
+    cell: 3,
+    room: "702",
+  };
+  
+  ```
+
+  
 
 
 
 
-### 接口
 
 
 
-### 类和模块
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
