@@ -1119,11 +1119,263 @@
 
 ## 前端初始化
 
-- 脚手架新建项目 vite
+### 新建项目
 
-  https://vitejs.dev/guide/
+- 脚手架新建项目 
+
+  [vite](https://vitejs.dev/guide/)
 
   ```bash
+  npm create vite@latest  # blog-frontend  # Vue  # TypeScript
+  
+  cd blog-frontend
+  npm install
+  npm run dev
+  
+  ```
+
+- 安装依赖
+
+  less、[ui组件库](https://yike.design) 
+
+  ```bash
+  # less
+  npm install less --save-dev
+  
+  # ui lib
+  npm install --save-dev @yike-design/ui
+  # plugin ...
+  npm install @yike-design/resolver
+  
+  ```
+
+  
+
+
+
+#### less test (test x)
+
+- less
+
+  ```vue
+  <template>
+    <div class="test">test less</div>
+  </template>
+  
+  <style scoped lang="less">
+  @color: #00aaee;
+  .test {
+    color: @color;
+  }
+  </style>
+  
+  ```
+
+  
+
+
+
+#### yike design (test x)
+
+- 按需引入
+
+  vite.config.ts
+
+  ```typescript
+  import { defineConfig } from "vite";
+  import vue from "@vitejs/plugin-vue";
+  
+  import AutoImport from "unplugin-auto-import/vite";
+  import Components from "unplugin-vue-components/vite";
+  import { YikeResolver } from "@yike-design/resolver"; // https://vitejs.dev/config/ export default
+  
+  // https://vitejs.dev/config/
+  export default defineConfig({
+    plugins: [
+      vue(),
+      AutoImport({ resolvers: [YikeResolver()] }),
+      Components({ resolvers: [YikeResolver({ sideEffect: true })] }),
+    ],
+  
+    // css预处理器
+    css: {
+      preprocessorOptions: {
+        less: {
+          charset: false,
+          additionalData:
+            '@import "@yike-design/ui/es/components/styles/basis.less";',
+        },
+      },
+    },
+  });
+  
+  ```
+
+  main.ts
+
+  ```typescript
+  import { createApp } from "vue";
+  import "./style.css";
+  import App from "./App.vue";
+  
+  import "@yike-design/ui/es/index.less";
+  import { YkMessage, YkNotification } from "@yike-design/ui";
+  
+  const app = createApp(App);
+  app.config.globalProperties.$notification = YkNotification;
+  app.config.globalProperties.$message = YkMessage;
+  app.mount("#app");
+  
+  ```
+
+  App.vue
+
+  ```vue
+  <template>
+    <yk-space>
+      <yk-button>主要按钮</yk-button>
+      <yk-button type="secondary">次要按钮</yk-button>
+      <yk-button type="outline">线框按钮</yk-button>
+    </yk-space>
+    <yk-pagination :total="1000" fix-width></yk-pagination>
+  </template>
+  
+  ```
+
+  
+
+
+
+### 路由配置 ✔
+
+#### 路由
+
+- [vue router](https://router.vuejs.org/zh/installation.html)
+
+  [入门使用](https://router.vuejs.org/zh/guide/)、[嵌套路由](https://router.vuejs.org/zh/guide/essentials/nested-routes.html)
+
+  ```bash
+  npm install vue-router@4 --save-dev
+  
+  # 创建路由
+  mkdir src/router
+  touch src/router/index.ts
+  
+  # 创建页面
+  mkdir src/views
+  touch src/views/IndexView.vue  # 有菜单
+  touch src/views/OverView.vue  # 首页页面
+  # 创建组件
+  mkdir src/components/bar
+  touch src/components/bar/HeadBar.vue
+  touch src/components/bar/MenuBar.vue
+  touch src/components/bar/TopTitle.vue
+  # 静态数据
+  mkdir src/utils
+  touch src/utils/menu.ts
+  
+  ```
+  
+  router/index.ts  [createWebHistory](https://router.vuejs.org/zh/guide/essentials/history-mode.html)
+  
+  ```typescript
+  import { createWebHistory, createRouter } from "vue-router";
+  
+  import IndexView from "../views/IndexView.vue";
+  import Hello from "../components/HelloWorld.vue";
+  
+  const routes = [
+    {
+      path: "/",
+      component: IndexView,
+      redirect: "/overview",
+      children: [
+        {
+          path: "overview",
+          component: () => import("../views/OverView.vue"),
+        },
+        {
+          path: "hello",
+          component: Hello,
+        },
+      ],
+    },
+    {
+      path: "/world",
+      component: Hello,
+    },
+  ];
+  
+  const router = createRouter({
+    history: createWebHistory(),
+    routes,
+  });
+  
+  export default router;
+  
+  ```
+  
+  main.ts
+  
+  ```typescript
+  import { createApp } from "vue";
+  import { YkMessage, YkNotification } from "@yike-design/ui";
+  import App from "./App.vue";
+  import router from "./router";
+  import "@yike-design/ui/es/index.less";
+  import "./style.less";
+  
+  const app = createApp(App);
+  app.config.globalProperties.$notification = YkNotification;
+  app.config.globalProperties.$message = YkMessage;
+  
+  app.use(router).mount("#app");
+  
+  ```
+  
+  
+
+
+
+#### 页面
+
+- App.vue
+
+  ```vue
+  <template>
+    <!-- 顶部导航栏 -->
+    <div>顶部导航栏</div>
+    <!-- 路由 -->
+    <router-view />
+  </template>
+  ```
+
+- views/IndexView.vue
+
+  ```vue
+  <template>
+    <!-- 菜单 -->
+    <div>菜单</div>
+    <!-- 子路由 -->
+    <router-view />
+  </template>
+  
+  <script setup lang="ts"></script>
+  
+  <style scoped lang="less"></style>
+  
+  ```
+
+- views/OverView.vue
+
+  ```vue
+  <template>
+    <div>总览</div>
+  </template>
+  
+  <script setup lang="ts"></script>
+  
+  <style scoped lang="less"></style>
   
   ```
 
@@ -1133,33 +1385,405 @@
 
 
 
+## 前端页面
+
+- 主要页面
+
+  **总览页面**：前台首页、*博客页面*、本地资源、*摄影图库*、*随记页面*
+
+  **新建页面**：*新建文章*、*新建摄影*
+
+- 拆分组件
+
+  顶部导航栏：图标、标题；邮箱、头像、主题按钮、退出按钮 (都有 *app.vue*)
+
+  左边菜单栏 (总览页面有 新建页面无)
+
+  标题条：标题组件、搜索栏(可关闭)、支持自定义内容
+
+  总览卡片
+
+  数据统计卡片
+
+  评论
+
+  私信
+
+- 拆分组件
+
+  
+
+  弹窗
+
+  富文本编辑器
+
+  ![](res/Snipaste_2024-08-18_12-51-26.png)
+
+  ![](res/Snipaste_2024-08-18_12-58-40.png)
+
+  
 
 
 
+### 全局样式
+
+- 清空之前
+
+  ```bash
+  rm -rf src/style.css 
+  touch src/style.less 
+  
+  ```
+
+- style.less (main.ts 层叠型样式)
+
+  全局背景、因顶部栏下移
+
+  ```less
+  body {
+    background-color: @bg-color-m;
+  }
+  
+  #app {
+    padding-top: 64px;
+  }
+  
+  ```
+
+  
 
 
 
+### 页面组件
+
+- App.vue
+
+  ```vue
+  <template>
+    <!-- 顶部导航栏 -->
+    <head-bar />
+    <!-- 路由 -->
+    <router-view />
+  </template>
+  
+  <script setup lang="ts">
+  import HeadBar from "./components/bar/HeadBar.vue";
+  </script>
+  
+  <style scoped lang="less"></style>
+  
+  ```
+
+  views/IndexView.vue
+
+  ```vue
+  <template>
+    <div class="index-view">
+      <!-- 菜单 -->
+      <menu-bar />
+      <!-- 子路由 -->
+      <router-view />
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import MenuBar from "../components/bar/MenuBar.vue";
+  </script>
+  
+  <style scoped lang="less">
+  .index-view {
+    padding: 32px 32px 32px 232px;
+  }
+  </style>
+  
+  ```
+
+  views/OverView.vue
+
+  ```vue
+  <template>
+    <top-title :is-search="false" />
+  </template>
+  
+  <script setup lang="ts">
+  import TopTitle from "../components/bar/TopTitle.vue";
+  </script>
+  
+  <style scoped lang="less"></style>
+  
+  ```
+
+  
 
 
 
+### 组件：HeadBar
+
+- components/HeadBar.vue
+
+  html元素和布局(用间距布局)、css样式、js动态(点击路由首页)
+
+  ```vue
+  <template>
+    <div class="head-bar">
+      <!-- 左边：logo、标题名称 -->
+      <yk-space
+        align="center"
+        :size="12"
+        style="cursor: pointer"
+        @click="backHome"
+      >
+        <img src="../../assets/vue.svg" class="logo" />
+        <span class="name">Blog oswin</span>
+      </yk-space>
+  
+      <!-- 右边：邮箱、头像、深浅切换、退出按钮 -->
+      <yk-space align="center" size="xl">
+        <!-- 邮箱 数据展示的徽标 -->
+        <yk-badge is-dot>
+          <IconEmailFill style="font-size: 20px" />
+        </yk-badge>
+        <!-- 头像 数据展示 -->
+        <yk-avatar
+          img-url="https://www.huohuo90.com:3003/user/6353b034dd4b583975e77fbe.png"
+        ></yk-avatar>
+        <!-- 深浅切换 暗黑模式 -->
+        <div><yk-theme /></div>
+        <!-- 退出按钮 -->
+        <yk-button>退出</yk-button>
+      </yk-space>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { useRouter } from "vue-router";
+  const router = useRouter();
+  // 返回总览页面
+  const backHome = () => {
+    router.push("/");
+  };
+  </script>
+  
+  <style scoped lang="less">
+  .head-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    background: @bg-color-l;
+    z-index: 10;
+    display: flex; // 一行布局
+    justify-content: space-between; // 两边分
+    align-items: center; // 上下居中
+    padding: 0 @space-xl;
+  
+    .logo {
+      height: 38px;
+    }
+    .name {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+  </style>
+  
+  ```
+  
+  
 
 
 
+### 组件：MenuBar
+
+- components/bar/MenuBar.vue
+
+  html元素和布局、css样式、js动态(点中变色)
+
+  ```typescript
+  <template>
+    <!-- space 竖排 -->
+    <yk-space dir="vertical" class="menu-bar" size="m">
+      <!-- 路由跳转 v-for -->
+      <router-link
+        :to="item.path"
+        v-for="item in navLinks"
+        :key="item.path"
+        class="menu-bar__nav"
+      >
+        <yk-space align="center" size="m">
+          <component :is="item.icon" />
+          <yk-text>{{ item.name }}</yk-text>
+        </yk-space>
+      </router-link>
+    </yk-space>
+  </template>
+  
+  <script setup lang="ts">
+  import { navLinks } from "../../utils/menu";
+  </script>
+  
+  <style scoped lang="less">
+  .menu-bar {
+    padding: @space-l;
+    position: fixed;
+    top: 72px;
+    left: 8px;
+  
+    &__nav {
+      width: 160px;
+      height: 40px;
+      border-radius: @radius-m;
+      padding: 0 @space-l;
+      display: flex;
+      align-items: center; // 上下居中
+      text-decoration: none; // 去掉下划线
+  
+      .yk-icon {
+        color: @font-color-ss;
+        width: 16px;
+        height: 16px;
+      }
+  
+      &:hover {
+        // 鼠标悬停
+        background: @bg-color-l; // 背景显色
+        .yk-text {
+          font-weight: 600; // 聚焦字体加粗
+        }
+      }
+    }
+    .router-link-active {
+      // 被选中
+      background: linear-gradient(180deg, #2b5aedde 0%, #2b5aed 100%);
+      .yk-icon {
+        color: @bg-color-l;
+      }
+      .yk-text {
+        color: @bg-color-l;
+        font-weight: 600; // 聚焦字体加粗
+      }
+    }
+  }
+  </style>
+  
+  ```
+
+- utils/menu.ts
+
+  ```typescript
+  export const navLinks = [
+    {
+      path: "overview",
+      name: "总览",
+      icon: "IconHomepageOutline",
+    },
+    {
+      path: "localfile",
+      name: "本地文件",
+      icon: "IconFolderCloseFill",
+    },
+    {
+      path: "article",
+      name: "博客文章",
+      icon: "IconBookmarkFill",
+    },
+    {
+      path: "gallery",
+      name: "摄影图库",
+      icon: "IconCameraFill",
+    },
+    {
+      path: "diary",
+      name: "随笔随记",
+      icon: "IconFillFill",
+    },
+    {
+      path: "setting",
+      name: "设置",
+      icon: "IconSettingsFill",
+    },
+  ];
+  
+  ```
+
+  
 
 
 
+### 组件：TopTitle
 
+- components/bar/TopTitle.vue
 
+  父子组件通信prop
 
+  ```vue
+  <template>
+    <div class="top-title">
+      <!-- 标题 -->
+      <yk-title :level="3" style="margin: 0; line-height: 36px">{{
+        props.name
+      }}</yk-title>
+      <!-- 搜索栏(可关闭) 取消按钮(输入后) v-if v-show-->
+      <slot name="custom" />
+      <yk-space size="m" v-if="isSearch">
+        <yk-button type="secondary" v-show="SearchData" @click="cancelSearch"
+          >取消搜索</yk-button
+        >
+        <yk-input-search
+          style="width: 320px"
+          placeholder="请输入..."
+          v-model="SearchData"
+          @search="search"
+        >
+          <template #suffix>
+            <yk-button type="secondary"><IconSearchOutline /></yk-button>
+          </template>
+        </yk-input-search>
+      </yk-space>
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref } from "vue";
+  
+  // 标题字样 搜索栏 (父子组件通信prop)
+  type titleProps = {
+    name: string;
+    isSearch: boolean;
+  };
+  const props = withDefaults(defineProps<titleProps>(), {
+    name: "总览",
+    isSearch: true, // 默认有搜索栏
+  });
+  
+  // 取消按钮(输入后才出现)
+  const SearchData = ref();
+  
+  // 搜索数据
+  const emit = defineEmits(["search"]);
+  // 搜索事件 搜索数据交给父组件
+  const search = () => {
+    emit("search", SearchData.value);
+  };
+  // 取消搜索事件
+  const cancelSearch = () => {
+    emit("search", "");
+    SearchData.value = "";
+  };
+  </script>
+  
+  <style scoped lang="less">
+  .top-title {
+    display: flex; // 一行布局
+    align-items: center; // 上下居中
+    justify-content: space-between; // 两边分
+  }
+  </style>
+  
+  ```
 
-
-
-
-
-
-
-
-
+  
 
 
 
