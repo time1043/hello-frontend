@@ -16,9 +16,12 @@
     "vue": "^3.4.37"
   },
   "devDependencies": {
+    "@types/mockjs": "^1.0.10",
     "@vitejs/plugin-vue": "^5.1.2",
     "@yike-design/ui": "^0.0.17",
+    "echarts": "^5.5.1",
     "less": "^4.2.0",
+    "mockjs": "^1.1.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
     "vue-router": "^4.4.3",

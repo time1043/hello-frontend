@@ -85,10 +85,12 @@ type surveyRes = {
   data?: {
     device: {
       key: "mobile" | "pc"; // 设备类型
+      name: string;
       value: number;
     }[];
     website: {
       key: "file" | "article" | "gallery" | "diary"; // 访问子页面
+      name: string;
       value: number;
     }[];
   };

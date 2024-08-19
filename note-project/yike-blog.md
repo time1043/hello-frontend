@@ -1,5 +1,13 @@
 # yike-blog
 
+[TOC]
+
+
+
+
+
+## 背景介绍
+
 - Reference
 
   Yike Design : https://yike.design 
@@ -14,11 +22,9 @@
 
   设计稿地址：https://codesign.qq.com/s/3P04bam21lVbRjn  访问密码：ANOT
 
+  
 
 
-
-
-## 背景介绍
 
 ### 项目规划
 
@@ -74,7 +80,7 @@
 
 - 用户登陆 (前台)
 
-  ![](/opt/code/frontend-code/hello-frontend/note-project/res/Snipaste_2024-08-18_12-54-41.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-54-41.png)
   
 - 管理员登陆 (后台)
 
@@ -90,7 +96,7 @@
 
 - 总览
 
-  ![](res/Snipaste_2024-08-18_12-51-26.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-51-26.png)
 
   
 
@@ -100,19 +106,19 @@
 
 - 博客文章
 
-  ![](res/Snipaste_2024-08-18_13-00-02.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-02.png)
 
 - 博客文章搜索无结果
 
-  ![](res/Snipaste_2024-08-18_12-59-41.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-59-41.png)
 
 - 博客文章搜索结果
 
-  ![](res/Snipaste_2024-08-18_13-01-02.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-01-02.png)
 
 - 新建博客文章
 
-  ![](res/Snipaste_2024-08-18_12-58-40.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-58-40.png)
 
   
 
@@ -122,11 +128,11 @@
 
 - 分组管理
 
-  ![](res/Snipaste_2024-08-18_12-58-20.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-58-20.png)
 
 - 标签管理
 
-  ![](res/Snipaste_2024-08-18_12-57-23.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-57-23.png)
 
   
 
@@ -136,7 +142,7 @@
 
 - 本地文件
 
-  ![](res/Snipaste_2024-08-18_13-00-16.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-16.png)
 
   
 
@@ -147,15 +153,15 @@
 
 - 摄影图库
 
-  ![](res/Snipaste_2024-08-18_13-00-40.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-40.png)
 
 - 摄影管理
 
-  ![](res/Snipaste_2024-08-18_12-57-04.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-57-04.png)
 
 - 新建摄影
 
-  ![](res/Snipaste_2024-08-18_12-59-03.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-59-03.png)
 
   
 
@@ -165,7 +171,7 @@
 
 - 随笔随记
 
-  ![](res/Snipaste_2024-08-18_13-00-51.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-51.png)
 
   
 
@@ -584,7 +590,7 @@
   
   ```
   
-  ![](res/Snipaste_2024-08-18_12-51-26.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-51-26.png)
   
   
 
@@ -696,7 +702,7 @@
   
   ```
   
-  ![](res/Snipaste_2024-08-18_13-00-02.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-02.png)
   
   
 
@@ -794,7 +800,7 @@
   
   ```
 
-  ![](res/Snipaste_2024-08-18_12-58-20.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-58-20.png)
 
   
 
@@ -867,7 +873,7 @@
   
   ```
 
-  ![](res/Snipaste_2024-08-18_12-57-23.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-57-23.png)
   
 
 
@@ -975,7 +981,7 @@
   
   ```
   
-  ![](res/Snipaste_2024-08-18_13-00-16.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-16.png)
   
   
 
@@ -1046,7 +1052,7 @@
   
   ```
 
-  ![](res/Snipaste_2024-08-18_13-00-40.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-40.png)
 
   
 
@@ -1111,7 +1117,7 @@
   
   ```
 
-  ![](res/Snipaste_2024-08-18_13-00-51.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_13-00-51.png)
 
   
 
@@ -1147,8 +1153,16 @@
   # plugin ...
   npm install @yike-design/resolver
   
+  # 路由
+  npm install vue-router@4 --save-dev
+  # mock数据
+  npm install mockjs --save-dev
+  npm install @types/mockjs --save-dev
+  # echarts图表
+  npm install echarts --save-dev
+  
   ```
-
+  
   
 
 
@@ -1261,6 +1275,7 @@
   mkdir src/router
   touch src/router/index.ts
   
+  
   # 创建页面
   mkdir src/views
   touch src/views/IndexView.vue  # 有菜单
@@ -1270,9 +1285,26 @@
   touch src/components/bar/HeadBar.vue
   touch src/components/bar/MenuBar.vue
   touch src/components/bar/TopTitle.vue
+  mkdir src/components/overview
+  touch src/components/overview/gather.vue
+  touch src/components/overview/datas.vue
+  mkdir src/components/reply
+  touch src/components/reply/index.ts
+  touch src/components/reply/comment.vue  # 评论
+  touch src/components/reply/information.vue  # 私信
+  touch src/components/reply/reply.vue  # 一条信息
+  
   # 静态数据
   mkdir src/utils
   touch src/utils/menu.ts
+  # mock数据
+  mkdir src/mock
+  touch src/mock/data.ts
+  # echarts图表
+  mkdir src/components/echarts
+  touch src/components/echarts/index.ts
+  touch src/components/echarts/line.vue
+  touch src/components/echarts/pie.vue
   
   ```
   
@@ -1383,9 +1415,7 @@
 
 
 
-
-
-## 前端页面
+## 前台页面
 
 - 主要页面
 
@@ -1405,21 +1435,31 @@
 
   数据统计卡片
 
-  评论
-
-  私信
+  评论和私信
 
 - 拆分组件
-
-  
 
   弹窗
 
   富文本编辑器
 
-  ![](res/Snipaste_2024-08-18_12-51-26.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-51-26.png)
 
-  ![](res/Snipaste_2024-08-18_12-58-40.png)
+  ![](res/yike-blog/Snipaste_2024-08-18_12-58-40.png)
+
+  
+
+
+
+### 开发流水线
+
+- 流水线
+
+  src/main.ts -> src/router/index.ts -> src/App.vue
+
+  -> src/views/IndexView.vue -> src/views/OverView.vue
+
+  -> src/components/...
 
   
 
@@ -1454,7 +1494,7 @@
 
 
 
-### 页面组件
+### 页面组件 ✔
 
 - App.vue
 
@@ -1502,17 +1542,30 @@
 
   ```vue
   <template>
-    <top-title :is-search="false" />
+    <yk-space dir="vertical" size="xl">
+      <!-- 上下结构：标题、总览卡片 -->
+      <top-title :is-search="false" />
+      <gather />
+      <!-- 左右结构：数据统计卡片、评论卡片 -->
+      <yk-space style="width: 100%">
+        <datas />
+        <div class="report" style="background-color: #fff; height: 30px">
+          评论
+        </div>
+      </yk-space>
+    </yk-space>
   </template>
   
   <script setup lang="ts">
   import TopTitle from "../components/bar/TopTitle.vue";
+  import gather from "../components/overview/gather.vue";
+  import datas from "../components/overview/datas.vue";
   </script>
   
   <style scoped lang="less"></style>
   
   ```
-
+  
   
 
 
@@ -1672,6 +1725,9 @@
 - utils/menu.ts
 
   ```typescript
+  // #################################################
+  // 导航链接
+  // #################################################
   export const navLinks = [
     {
       path: "overview",
@@ -1706,7 +1762,7 @@
   ];
   
   ```
-
+  
   
 
 
@@ -1787,21 +1843,689 @@
 
 
 
+### mock数据
+
+- 生成随机数据 拦截ajax请求
+
+  [mockjs](http://mockjs.com/)、[mockjs examples](http://mockjs.com/examples.html#)
+
+  ```bash
+  npm install mockjs --save-dev
+  npm install @types/mockjs --save-dev
+  
+  ```
+
+- mock/index.ts
+
+  ```typescript
+  import Mock from "mockjs";
+  
+  // #################################################
+  // 总览数据
+  // /overview
+  // #################################################
+  
+  // 随机数 浮点数
+  const Random = Mock.Random;
+  
+  export const overview = Mock.mock({
+    code: 200,
+    data: {
+      file: Random.float(60, 100, 2, 2) + "M",
+      "article|0-50": 0,
+      "gallery|0-50": 0,
+      "diary|0-50": 0,
+    },
+  });
+  
+  // #################################################
+  // 访问量
+  // /visits
+  // #################################################
+  
+  export const visits = Mock.mock({
+    code: 200,
+    "data|30": [
+      {
+        date: "@datetime('MM-dd')",
+        "count|10-100": 12,
+      },
+    ],
+  });
+  
+  // #################################################
+  // 数据监测
+  // /survey
+  // #################################################
+  
+  export const survey = Mock.mock({
+    code: 200,
+    data: {
+      device: [
+        {
+          key: "mobile",
+          name: "移动端",
+          "value|30-120": 50,
+        },
+        {
+          key: "pc",
+          name: "PC端",
+          "value|30-120": 40,
+        },
+      ],
+      website: [
+        {
+          key: "file",
+          name: "文件",
+          "value|30-120": 50,
+        },
+        {
+          key: "article",
+          name: "文章",
+          "value|30-120": 50,
+        },
+        {
+          key: "gallery",
+          name: "图库",
+          "value|30-120": 50,
+        },
+        {
+          key: "diary",
+          name: "日记",
+          "value|30-120": 50,
+        },
+      ],
+    },
+  });
+  
+  ```
+
+  
 
 
 
+### 组件：gather
+
+- components/overview/gather.vue
+
+  挂载获取的数据
+
+  ```vue
+  <template>
+    <yk-space class="gather">
+      <div
+        v-for="(item, index) in gathers"
+        :key="index"
+        class="gather__list"
+        :style="{
+          background: 'linear-gradient(' + item.bgColor + ')',
+        }"
+      >
+        <!-- 四个小卡片 每个卡片内部是左右结构 左边是文字和数字 -->
+        <yk-space dir="vertical" size="s">
+          <yk-text type="secondary">{{ item.name }}</yk-text>
+          <yk-title :level="2" style="margin: 0">{{ item.total }}</yk-title>
+        </yk-space>
+        <!-- 右边是按钮 排除第0个 加号正方形次要按钮 -->
+        <yk-button v-if="index > 0" size="xl" type="secondary" shape="square">
+          <IconPlusOutline />
+        </yk-button>
+      </div>
+    </yk-space>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, onMounted } from "vue";
+  import { overLink } from "../../utils/menu";
+  import { overview } from "../../mock/data";
+  
+  // 把静态数据变动态
+  const gathers = ref(overLink);
+  
+  // 获取mock数据
+  const drawGatherData = () => {
+    let data = overview.data;
+    gathers.value[0].total = data.file;
+    gathers.value[1].total = data.article;
+    gathers.value[2].total = data.gallery;
+    gathers.value[3].total = data.diary;
+  };
+  // 挂载后获取数据
+  onMounted(() => {
+    drawGatherData();
+  });
+  </script>
+  
+  <style scoped lang="less">
+  .gather {
+    width: 100%;
+  
+    &__list {
+      width: 25%;
+      background: #eee;
+      display: flex; // 一行布局
+      justify-content: space-between; // 两边分
+      align-items: center; // 上下居中
+      padding: @space-xl;
+      border-radius: @radius-m;
+  
+      &:first-child {
+        .yk-title,
+        .yk-text {
+          color: @white;
+        }
+      }
+    }
+  }
+  </style>
+  
+  ```
+
+- utils/menu.ts
+
+  ```typescript
+  // #################################################
+  // 总览卡片
+  // #################################################
+  export const overLink = [
+    {
+      path: "",
+      name: "本地文件",
+      total: "0M",
+      bgColor: "180deg, #2b5aedcc 0%, #2B5AED 100%",
+    },
+    {
+      path: "editarticle",
+      name: "博客文章",
+      total: 0,
+      bgColor: "180deg, #ff600829 0%, #ff60083d 100%",
+    },
+    {
+      path: "editgallery",
+      name: "摄影图库",
+      total: 0,
+      bgColor: "180deg, #25df0629 0%, #25df063d 100%",
+    },
+    {
+      path: "editdiary",
+      name: "随笔随记",
+      total: 0,
+      bgColor: "180deg, #00c9f529 0%, #00c9f53d 100%",
+    },
+  ];
+  
+  ```
+
+  
 
 
 
+### 组件：datas
+
+- components/overview/datas.vue
+
+  ```vue
+  <template>
+    <!-- 上下结构 两张卡片 -->
+    <yk-space dir="vertical" size="xl" style="width: 50%">
+      <div class="data-card">
+        <!-- 左右结构：标题、按钮组 -->
+        <div class="data-card__title">
+          <p class="data-card__title-name">访问量</p>
+          <yk-radio-group
+            v-model="visitsRadio"
+            type="button"
+            :solid="true"
+            @change="getVisits"
+          >
+            <yk-radio value="week">近一周</yk-radio>
+            <yk-radio value="moon">近一月</yk-radio>
+          </yk-radio-group>
+        </div>
+        <!-- 折线图 -->
+        <LineChart chart-height="208px" :data="visitsData" />
+      </div>
+  
+      <div class="data-card">
+        <div class="data-card__title">
+          <!-- 左右结构：标题、按钮组 -->
+          <p class="data-card__title-name">数据监测</p>
+          <yk-radio-group v-model="surveyRadio" type="button" :solid="true">
+            <yk-radio value="week">近一周</yk-radio>
+            <yk-radio value="moon">近一月</yk-radio>
+          </yk-radio-group>
+        </div>
+        <!-- 饼图 -->
+        <div style="display: flex">
+          <PieChart
+            title="设备总数"
+            chart-height="208px"
+            :data="survey.data.device"
+          />
+          <PieChart
+            title="访问总数"
+            chart-height="208px"
+            :data="survey.data.website"
+          />
+        </div>
+      </div>
+    </yk-space>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, onMounted } from "vue";
+  import { LineChart, PieChart } from "../echarts/index";
+  import { visits, survey } from "../../mock/index";
+  
+  // 选项：近一周 近一月
+  const visitsRadio = ref("week");
+  const surveyRadio = ref("moon");
+  
+  // 数据：访问量 (动态获取)
+  const visitsData = ref([]);
+  const getVisits = (e: string) => {
+    let data = visits.data;
+    if (e == "week") {
+      data = data.slice(0, 7);
+    }
+    visitsData.value = data;
+  };
+  
+  // 挂载时获取数据
+  onMounted(() => {
+    getVisits(visitsRadio.value);
+  });
+  </script>
+  
+  <style scoped lang="less">
+  .data-card {
+    padding: @space-xl;
+    border-radius: @radius-m;
+    background: @bg-color-l;
+    width: 100%;
+    padding-bottom: @space-l;
+  
+    &__title {
+      display: flex; // 一行布局
+      justify-content: space-between; // 两边分
+      align-items: center; // 上下居中
+  
+      &-name {
+        .font-l();
+        font-weight: 600;
+        color: font-color-l;
+      }
+    }
+  }
+  </style>
+  
+  ```
+
+  
 
 
 
+### echarts图表
+
+- echarts
+
+  [echarts](https://echarts.apache.org/zh/index.html)、[echarts docs](https://echarts.apache.org/handbook/zh/basics/import)
+
+  [echarts examples](https://echarts.apache.org/examples/zh/index.html)、[line-smooth](https://echarts.apache.org/examples/zh/editor.html?c=line-smooth)
+
+  ```bash
+  npm install echarts --save-dev
+  
+  ```
+
+- components/echarts/index.ts
+
+  ```typescript
+  import LineChart from "./line.vue";
+  import PieChart from "./pie.vue";
+  
+  export { LineChart, PieChart };
+  
+  ```
+
+  
 
 
 
+### echarts图表：折线图
+
+- components/echarts/line.vue
+
+  ```vue
+  <template>
+    <div ref="chart" :style="{ height: chartHeight }" class="chart"></div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, onMounted, onBeforeUnmount, markRaw, watch } from "vue";
+  // 引入echarts核心
+  import * as echarts from "echarts/core";
+  // 引入提示框 标题 直角坐标系 数据集 内置数据转换器组件
+  import {
+    TitleComponent,
+    TooltipComponent,
+    GridComponent,
+    LegendComponent,
+    DatasetComponent,
+    TransformComponent,
+  } from "echarts/components";
+  // 引入折线图 饼图
+  import { LineChart } from "echarts/charts";
+  // 引入标签自动布局 全局过渡动画等特性
+  import { LabelLayout, UniversalTransition } from "echarts/features";
+  // 引入canvas渲染器 或SVGRenderer  must!!
+  import { CanvasRenderer } from "echarts/renderers";
+  
+  // 注册组件
+  echarts.use([
+    TitleComponent,
+    TooltipComponent,
+    GridComponent,
+    LegendComponent,
+    DatasetComponent,
+    TransformComponent,
+    LineChart,
+    LabelLayout,
+    UniversalTransition,
+    CanvasRenderer,
+  ]);
+  
+  // 父子组件数据传递
+  const props = defineProps(["data", "chartHeight"]);
+  // 获取html元素
+  const chart = ref<HTMLDivElement>();
+  // 初始化数据
+  let myChart = ref();
+  const xAixisD = ref<string[]>([]);
+  const seriesD = ref<number[]>([]);
+  const option = ref();
+  
+  // 武装数据
+  const visit = (e: any) => {
+    xAixisD.value = [];
+    seriesD.value = [];
+    for (let i = 0; i < e.length; i++) {
+      xAixisD.value.push(e[i].date); // x数据
+      seriesD.value.push(e[i].count); // y数据
+    }
+    option.value = {
+      color: ["#2B5AED"],
+      grid: {
+        top: "4%",
+        left: "0%",
+        right: "0%",
+        bottom: "0%",
+        containLabel: true,
+      },
+      xAxis: {
+        type: "category",
+        data: xAixisD.value,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          data: seriesD.value,
+          type: "line",
+          smooth: true,
+        },
+      ],
+    };
+  };
+  
+  // 挂载 实时变化
+  onMounted(() => {
+    visit(props.data);
+  
+    myChart.value = markRaw(echarts.init(chart.value as HTMLDivElement));
+    myChart.value.setOption(option.value);
+  
+    // 监听页面视图变化echarts图的宽度
+    window.addEventListener("resize", () => {
+      myChart.value.resize();
+    });
+  });
+  watch(
+    () => props.data,
+    (n) => {
+      visit(n);
+      myChart.value = markRaw(echarts.init(chart.value as HTMLDivElement));
+      myChart.value.setOption(option.value);
+    }
+  );
+  
+  // 组件销毁前must取消监听事件 否则影响性能和占用内存
+  onBeforeUnmount(() => {
+    window.removeEventListener("resize", () => {
+      myChart.value.resize();
+    });
+  });
+  </script>
+  
+  <style scoped lang="less">
+  .chart {
+    width: 100%;
+  }
+  </style>
+  
+  ```
+
+  
 
 
 
+### echarts图表：饼图
+
+- components/echarts/pie.vue
+
+  ```vue
+  <template>
+    <div ref="chart" :style="{ height: chartHeight }" class="chart"></div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref, onMounted, onBeforeUnmount, markRaw, watch } from "vue";
+  // 引入echarts核心
+  import * as echarts from "echarts/core";
+  // 引入提示框 标题 直角坐标系 数据集 内置数据转换器组件
+  import {
+    TitleComponent,
+    TooltipComponent,
+    GridComponent,
+    LegendComponent,
+    DatasetComponent,
+    TransformComponent,
+  } from "echarts/components";
+  // 引入折线图 饼图
+  import { PieChart } from "echarts/charts";
+  // 引入标签自动布局 全局过渡动画等特性
+  import { LabelLayout, UniversalTransition } from "echarts/features";
+  // 引入canvas渲染器 或SVGRenderer  must!!
+  import { CanvasRenderer } from "echarts/renderers";
+  
+  // 注册组件
+  echarts.use([
+    TitleComponent,
+    TooltipComponent,
+    GridComponent,
+    LegendComponent,
+    DatasetComponent,
+    TransformComponent,
+    PieChart,
+    LabelLayout,
+    UniversalTransition,
+    CanvasRenderer,
+  ]);
+  
+  // 父子组件数据传递
+  const props = defineProps(["data", "title", "chartHeight"]);
+  // 获取html元素
+  const chart = ref<HTMLDivElement>();
+  // 初始化数据
+  let myChart = ref();
+  const option = ref();
+  
+  // 武装数据
+  const survey = (e: any) => {
+    // 饼图中心：总数计算
+    let total: number = 0;
+    for (let i = 0; i < e.length; i++) {
+      total += e[i].value;
+    }
+  
+    option.value = {
+      // 饼图的环颜色
+      color: ["#2B5AED", "#FA5247", "#1ccbb6", "#F625AF", "#FFB435"],
+      // 饼图中心：主标题 副标题
+      title: {
+        text: total, // 主标题文本
+        subtext: props.title, // 副标题文本
+        left: "center",
+        top: "34%",
+        textStyle: {
+          fontSize: 32,
+          color: "#686B73",
+          algin: "center",
+        },
+        subtextStyle: {
+          fontSize: 14,
+          color: "#686B73",
+        },
+      },
+  
+      // 提示框
+      tooltip: {
+        trigger: "item",
+      },
+      // 图例
+      legend: {
+        show: false,
+        // orient: "vertical",
+        bottom: 0,
+        // right: 0,
+        icon: "circle",
+      },
+  
+      series: [
+        {
+          // name: "设备总数",
+          type: "pie",
+          radius: ["60%", "76%"],
+          avoidLabelOverlap: true,
+  
+          label: {
+            normal: {
+              show: true, // 默认显示关闭 若为true则数据重叠
+            },
+            emhasis: {
+              show: true,
+            },
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: "bold",
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: e,
+        },
+      ],
+    };
+  };
+  survey(props.data);
+  
+  // 挂载 实时变化
+  onMounted(() => {
+    myChart.value = markRaw(echarts.init(chart.value as HTMLDivElement));
+    myChart.value.setOption(option.value);
+  
+    // 监听页面视图变化echarts图的宽度
+    window.addEventListener("resize", () => {
+      myChart.value.resize();
+    });
+  });
+  watch(
+    () => props.data,
+    (n) => {
+      survey(n);
+      myChart.value = markRaw(echarts.init(chart.value as HTMLDivElement));
+      myChart.value.setOption(option.value);
+    }
+  );
+  
+  // 组件销毁前must取消监听事件 否则影响性能和占用内存
+  onBeforeUnmount(() => {
+    window.removeEventListener("resize", () => {
+      myChart.value.resize();
+    });
+  });
+  </script>
+  
+  <style scoped lang="less">
+  .chart {
+    width: 100%;
+  }
+  </style>
+  
+  ```
+
+  
+
+
+
+### 组件：评论和私信
+
+- components/reply/index.ts
+
+  ```typescript
+  import comment from "./comment.vue";
+  import information from "./information.vue";
+  
+  export { comment, information };
+  
+  ```
+
+- components/reply/reply.vue
+
+  ```vue
+  
+  ```
+
+  
+
+
+
+### 组件：评论
+
+- components/reply/comment.vue
+
+  ```vue
+  
+  ```
+
+  
+
+
+
+### 组件：私信
+
+- src/components/reply/information.vue
+
+  ```vue
+  
+  ```
+
+  
 
 
 
