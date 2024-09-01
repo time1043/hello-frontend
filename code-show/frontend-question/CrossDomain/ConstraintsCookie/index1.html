@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>page1</title>
+  </head>
+
+  <body>
+    <!-- http://127.0.0.1:5500/CrossDomain/ConstraintsCookie/index1.html -->
+    <!-- http://127.0.0.1:5500/CrossDomain/ConstraintsCookie/index2.html -->
+    <h2>page1</h2>
+    <button onclick="showDOM()">Get Cookie of page2</button>
+
+    <br />
+    <iframe id="framePage" src="./index2.html"></iframe>
+
+    <script type="text/javascript">
+      document.cookie = "name=page1";
+
+      function showDOM() {
+        // console.log(document.cookie); // page1
+
+        const framePage = document.getElementById("framePage");
+        console.log(framePage.contentWindow.document.cookie); // page2
+      }
+    </script>
+  </body>
+</html>

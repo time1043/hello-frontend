@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>page1</title>
+  </head>
+
+  <body>
+    <!-- http://127.0.0.1:5500/CrossDomain/ConstraintsDOM/index1.html -->
+    <!-- https://www.baidu.com/ -->
+    <h2>page1</h2>
+    <button onclick="showDOM()">Get DOM of page2</button>
+
+    <br />
+    <iframe id="framePage" src="https://www.baidu.com/"></iframe>
+
+    <script type="text/javascript">
+      function showDOM() {
+        const framePage = document.getElementById("framePage");
+        console.log(framePage.contentWindow.document); // page2 x
+      }
+    </script>
+  </body>
+</html>

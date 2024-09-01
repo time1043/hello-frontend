@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>page1</title>
+  </head>
+
+  <body>
+    <!-- http://127.0.0.1:5500/CrossDomain/ConstraintsAjaxResponse2/index1.html -->
+    <!-- https://www.toutiao.com/hot-event/hot-board/?origin=toutiao_pc -->
+
+    <button onclick="getNews()">Get News</button>
+
+    <script>
+      async function getNews() {
+        const url =
+          "https://www.toutiao.com/hot-event/hot-board/?origin=toutiao_pc";
+        let resule = await fetch(url);
+        let data = await resule.json();
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>
