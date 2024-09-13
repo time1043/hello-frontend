@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+
+    <!-- react.dev.js, react-dom.dev.js, babel.min.js -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function MyText() {
+        let name = "oswin"; // {} 里最原始js表达式 即有返回值
+        let age = 18;
+        let home = <a href="https://github.com/time1043">home</a>;
+        return (
+          <h2>
+            name: {name}; age: {age + 1}; {age > 18 ? "big" : "small"}; {home};
+            {"impossible".toUpperCase()};
+          </h2>
+        );
+      }
+
+      function MyList() {
+        let arr = ["a", "b", "b", 1, 2, 3];
+
+        // return <div>{arr}</div>;  // 拼接成字符串
+        return (
+          <div>
+            {arr.map((item, index) => (
+              <h3 key={index}>{item}</h3>
+            ))}
+          </div>
+        ); // map数组遍历 变量解析 unique-key-prop
+      }
+
+      function MyApp() {
+        let color = "red";
+        let fontSize = "48px";
+        let nothing = "no";
+        return (
+          <>
+            <h1 style={{ color: color, fontSize: fontSize }} xxx={nothing}>
+              Run you clear boy!
+            </h1>
+            <MyText xxx={nothing} /> // 组件间通信 父传子 子接收
+            <MyList />
+          </>
+        );
+      }
+
+      const container = document.getElementById("root"); // DOM
+      const root = ReactDOM.createRoot(container); // ReactDOM
+      root.render(<MyApp />);
+    </script>
+  </body>
+</html>

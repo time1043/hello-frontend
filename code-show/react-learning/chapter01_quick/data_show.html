@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+
+    <!-- react.dev.js, react-dom.dev.js, babel.min.js -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const user = {
+        name: "Hedy Lamarr",
+        imageUrl: "https://avatars.githubusercontent.com/u/132178516?v=4",
+        imageSize: 90,
+      };
+
+      function Profile() {
+        return (
+          <>
+            <h1>{user.name}</h1>
+            <img
+              className="avatar"
+              src={user.imageUrl}
+              alt={"Photo of " + user.name}
+              style={{
+                width: user.imageSize,
+                height: user.imageSize,
+              }}
+            />
+          </>
+        );
+      }
+
+      function MyApp() {
+        let color = "red";
+        let fontSize = "48px";
+        let nothing = "no";
+        return (
+          <>
+            <h1 style={{ color: color, fontSize: fontSize }} xxx={nothing}>
+              Run you clear boy!
+            </h1>
+            <Profile />
+          </>
+        );
+      }
+
+      const container = document.getElementById("root"); // DOM
+      const root = ReactDOM.createRoot(container); // ReactDOM
+      root.render(<MyApp />);
+    </script>
+  </body>
+</html>
