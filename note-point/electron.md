@@ -58,6 +58,7 @@
   
   npm i electron -D  # npm install --save-dev electron
   touch main.js
+  mkdir pages && touch pages/index.html pages/index.css
   
   npm start
   
@@ -81,6 +82,28 @@
       "electron": "^32.1.0"
     }
   }
+  
+  ```
+
+  main.js
+
+  ```js
+  const { app, BrowserWindow } = require("electron");
+  
+  app.on("ready", () => {
+    // BrowserWindow conf
+    // https://www.electronjs.org/zh/docs/latest/api/browser-window
+    // https://wizardforcel.gitbooks.io/electron-doc/content/api/browser-window.html
+    const win = new BrowserWindow({
+      width: 800,
+      height: 600,
+      autoHideMenuBar: true,
+      x: 0,
+      y: 0,
+      alwaysOnTop: true,
+    });
+    win.loadURL("https://github.com");
+  });
   
   ```
 
