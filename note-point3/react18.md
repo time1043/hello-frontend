@@ -6,6 +6,97 @@
 
 
 
+## 背景介绍
+
+### 新建项目：CDN
+
+- 引入react.js
+
+  ```
+  
+  ```
+
+  
+
+
+
+### 新建项目：脚手架
+
+- 新建项目
+
+  ```bash
+  cd hello-react/ && npx create-react-app .
+  
+  npm i
+  npm run start
+  
+  ```
+
+- 项目结构
+
+  ```bash
+  hello-react$ tree -L 3
+  .
+  ├── README.md
+  ├── .gitignore
+  │
+  ├── node_modules			# 依赖声明 脚本封装 ✔
+  ├── package.json			# 依赖下载
+  ├── package-lock.json
+  │
+  ├── public					# 公开资源
+  │   ├── index.html				# 应用入口HTML文件 ✔
+  │   ├── favicon.ico				# 
+  │   ├── logo192.png				# 
+  │   ├── logo512.png				# 
+  │   ├── manifest.json			# 
+  │   └── robots.txt				# 
+  └── src						# 源代码
+      ├── index.js				# 应用入口JS文件，初始化React应用 ✔  import React import ReactDOM 
+      ├── index.css				# 全局样式文件 
+      ├── App.js				    # APP主组件 应用的UI逻辑 ✔
+      ├── App.test.js				# 
+      ├── App.css					# App主组件 样式
+      ├── logo.svg
+      ├── reportWebVitals.js
+      └── setupTests.js
+  
+  ```
+
+  
+
+
+
+### 组件创建
+
+- 组件
+
+  web - page - components(外观 逻辑)
+
+  组件是一个函数，函数的返回值是JSX代码
+
+- 组件创建的两种方式
+
+  函数组件 ✔
+
+  类组件 (写法冗余 复杂生命周期)
+
+  
+
+
+
+### JSX
+
+- JSX
+
+  HTML + JS -> JSX (extends)
+
+  必须要闭合 `<br/>`
+
+  单个父节点 `<div>...<div/>` 或 `<>...</>`
+
+  
+
 
 
 ## Quick Start
@@ -28,27 +119,7 @@
 
 
 
-### Concepts
-
-- 组件
-
-  web - page - components(外观 逻辑)
-  
-  组件是一个函数，函数的返回值是JSX代码
-  
-- JSX
-
-  HTML + JS -> JSX (extends)
-
-  必须要闭合 `<br/>`
-
-  单个父节点 `<div>...<div/>` 或 `<>...</>`
-
-  
-
-
-
----
+### 组件化开发
 
 - 组件化开发
 

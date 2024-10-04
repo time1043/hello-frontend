@@ -1,10 +1,14 @@
 # School Dashboard
 
-- Reference
+- Reference - dev
+
+  [Prisma](https://www.prisma.io/),  [Recharts](https://recharts.org/en-US/), 
+
+- Reference - course
 
   [Next.js School Management Dashboard UI Design Tutorial | React Next.js Responsive Admin Dashboard](https://www.youtube.com/watch?v=myYlGLFxZas)
 
-  [code start](https://github.com/safak/next-dashboard-ui/tree/starter), [code completed](https://github.com/safak/next-dashboard-ui/tree/completed), 
+  [code start](https://github.com/safak/next-dashboard-ui/tree/starter), [code completed](https://github.com/safak/next-dashboard-ui/tree/completed), [code full-stack-school](https://github.com/safak/full-stack-school), 
   
   
 
@@ -46,7 +50,9 @@
 
 - 后端
 
-  Nextjs, PostgreSQL
+  Nextjs, 
+
+  Prisma(ORM), PostgreSQL
 
 - 部署
 
@@ -80,7 +86,7 @@
 
   ![school-dashboard-admin-index](res/school-dashboard/school-dashboard-admin-index.png)
 
-  ![school-dashboard-response](res/school-dashboard/school-dashboard-response.png)
+  ![](res/school-dashboard/school-dashboard-response.png)
 
 - student
 
@@ -134,9 +140,12 @@
   # npx create-next-app  # 整合项目 版本问题
   git clone https://github.com/safak/next-dashboard-ui.git  # /tree/starter
   cd next-dashboard-ui/ && rm -rf .git
+  #git clone --single-branch -b starter https://github.com/safak/next-dashboard-ui.git
+  #git clone --single-branch -b completed https://github.com/safak/next-dashboard-ui.git
   
   npm i
   npm run dev
+  
   
   # http://localhost:3000/dashboard/admin
   # http://localhost:3000/admin  # mv src/app/dashboard/ src/app/(dashboard)/
@@ -150,6 +159,41 @@
   
   # components
   touch src/components/Menu.tsx src/components/NavBar.tsx
+  touch src/components/UserCard.tsx src/components/CountChart.tsx src/components/AttendanceChart.tsx src/components/FinanceChart.tsx
+  
+  ```
+  
+- tailwind.config.ts (全局主题色)
+
+  ```typescript
+  import type { Config } from "tailwindcss";
+  
+  const config: Config = {
+    content: [
+      "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+      "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+      "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    theme: {
+      extend: {
+        backgroundImage: {
+          "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+          "gradient-conic":
+            "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        },
+        colors: {
+          lamaSky: "#C3EBFA",
+          lamaSkyLight: "#EDF9FD",
+          lamaPurple: "#CFCEFF",
+          lamaPurpleLight: "#F1F0FF",
+          lamaYellow: "#FAE27C",
+          lamaYellowLight: "#FEFCE8",
+        },
+      },
+    },
+    plugins: [],
+  };
+  export default config;
   
   ```
 
@@ -157,7 +201,18 @@
 
 
 
-### 依赖配置
+### 依赖配置：recharts
+
+- 图表
+
+  ```bash
+  npm install recharts
+  
+  ```
+
+  
+
+
 
 ### 路由配置
 
@@ -266,9 +321,226 @@
 
 ### 新建项目
 
-### 依赖配置
+- 复用前端
+
+  ```bash
+  
+  ```
+
+  
 
 
+
+### 依赖配置：ORM
+
+- 数据库ORM
+
+  ```bash
+  npm i prisma  # orm
+  npx prisma init  # 初始化  # /prisma/schema.prisma
+  
+  ```
+
+  schema.prisma
+
+  ```
+  generator client {
+    provider = "prisma-client-js"
+  }
+  
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
+  
+  model Admin {
+    id       String @id
+    username String @unique
+  }
+  
+  model Student {
+    id          String       @id
+    username    String       @unique
+    name        String
+    surname     String
+    email       String?      @unique
+    phone       String?      @unique
+    address     String
+    img         String?
+    bloodType   String
+    sex         UserSex
+    createdAt   DateTime     @default(now())
+    parentId    String
+    parent      Parent       @relation(fields: [parentId], references: [id])
+    classId     Int
+    class       Class        @relation(fields: [classId], references: [id])
+    gradeId     Int
+    grade       Grade        @relation(fields: [gradeId], references: [id])
+    attendances Attendance[]
+    results     Result[]
+    birthday    DateTime
+  }
+  
+  model Teacher {
+    id        String    @id
+    username  String    @unique
+    name      String
+    surname   String
+    email     String?   @unique
+    phone     String?   @unique
+    address   String
+    img       String?
+    bloodType String
+    sex       UserSex
+    createdAt DateTime  @default(now())
+    subjects  Subject[]
+    lessons   Lesson[]
+    classes   Class[]
+    birthday  DateTime
+  }
+  
+  model Parent {
+    id        String    @id
+    username  String    @unique
+    name      String
+    surname   String
+    email     String?   @unique
+    phone     String    @unique
+    address   String
+    createdAt DateTime  @default(now())
+    students  Student[]
+  }
+  
+  model Grade {
+    id    Int @id @default(autoincrement())
+    level Int @unique
+  
+    students Student[]
+    classess Class[]
+  }
+  
+  model Class {
+    id       Int    @id @default(autoincrement())
+    name     String @unique
+    capacity Int
+  
+    supervisorId  String?
+    supervisor    Teacher?       @relation(fields: [supervisorId], references: [id])
+    lessons       Lesson[]
+    students      Student[]
+    gradeId       Int
+    grade         Grade          @relation(fields: [gradeId], references: [id])
+    events        Event[]
+    announcements Announcement[]
+  }
+  
+  model Subject {
+    id       Int       @id @default(autoincrement())
+    name     String    @unique
+    teachers Teacher[]
+    lessons  Lesson[]
+  }
+  
+  model Lesson {
+    id        Int      @id @default(autoincrement())
+    name      String
+    day       Day
+    startTime DateTime
+    endTime   DateTime
+  
+    subjectId   Int
+    subject     Subject      @relation(fields: [subjectId], references: [id])
+    classId     Int
+    class       Class        @relation(fields: [classId], references: [id])
+    teacherId   String
+    teacher     Teacher      @relation(fields: [teacherId], references: [id])
+    exams       Exam[]
+    assignments Assignment[]
+    attendances Attendance[]
+  }
+  
+  model Exam {
+    id        Int      @id @default(autoincrement())
+    title     String
+    startTime DateTime
+    endTime   DateTime
+  
+    lessonId Int
+    lesson   Lesson   @relation(fields: [lessonId], references: [id])
+    results  Result[]
+  }
+  
+  model Assignment {
+    id        Int      @id @default(autoincrement())
+    title     String
+    startDate DateTime
+    dueDate   DateTime
+  
+    lessonId Int
+    lesson   Lesson   @relation(fields: [lessonId], references: [id])
+    results  Result[]
+  }
+  
+  model Result {
+    id    Int @id @default(autoincrement())
+    score Int
+  
+    examId       Int?
+    exam         Exam?       @relation(fields: [examId], references: [id])
+    assignmentId Int?
+    assignment   Assignment? @relation(fields: [assignmentId], references: [id])
+    studentId    String
+    student      Student     @relation(fields: [studentId], references: [id])
+  }
+  
+  model Attendance {
+    id      Int      @id @default(autoincrement())
+    date    DateTime
+    present Boolean
+  
+    studentId String
+    student   Student @relation(fields: [studentId], references: [id])
+    lessonId  Int
+    lesson    Lesson  @relation(fields: [lessonId], references: [id])
+  }
+  
+  model Event {
+    id          Int      @id @default(autoincrement())
+    title       String
+    description String
+    startTime   DateTime
+    endTime     DateTime
+  
+    classId Int?
+    class   Class? @relation(fields: [classId], references: [id])
+  }
+  
+  model Announcement {
+    id          Int      @id @default(autoincrement())
+    title       String
+    description String
+    date        DateTime
+  
+    classId Int?
+    class   Class? @relation(fields: [classId], references: [id])
+  }
+  
+  enum UserSex {
+    MALE
+    FEMALE
+  }
+  
+  enum Day {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+  }
+  
+  ```
+
+  
 
 
 
@@ -345,7 +617,7 @@
   }>) {
     return (
       <div className="h-screen flex">
-        {/* LEFT */}
+        {/* ========================== LEFT ========================== */}
         <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4">
           <Link
             href="/"
@@ -358,7 +630,7 @@
           <Menu />
         </div>
   
-        {/* RIGHT */}
+        {/* ========================== RIGHT ========================== */}
         <div className="w-[86%] md:w-[92%] %] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA] overflow-scroll">
           <NavBar />
           {children}
@@ -589,11 +861,82 @@
 
 - src/app/dashboard/admin/page.tsx
 
-  Left(Top): 
+  Left(Top): UserCard; CountChart + AttendanceChart; FinanceChart
 
   Right(button): 
 
   ```tsx
+  import AttendanceChart from "@/components/AttendanceChart";
+  import CountChart from "@/components/CountChart";
+  import UserCard from "@/components/UserCard";
+  
+  const AdminPage = () => {
+    return (
+      <div className="p-4 flex gap-4 flex-col md:flex-row">
+        {/* ========================== LEFT ========================== */}
+        <div className="w-full lg:w-2/3 flex flex-col gap-8">
+          {/* USER CARDS */}
+          <div className="flex gap-4 justify-between flex-wrap">
+            <UserCard type="student" />
+            <UserCard type="teacher" />
+            <UserCard type="parent" />
+            <UserCard type="staff" />
+          </div>
+  
+          {/* CHARTS MIDDLE */}
+          <div className="flex gap-4 flex-col lg:flex-row">
+            {/* COUNT CHART */}
+            <div className="w-full lg:w-1/3 h-[450px]">
+              <CountChart />
+            </div>
+            {/* ATTENDANCE CHART */}
+            <div className="w-full lg:w-2/3 h-[450px]">
+              <AttendanceChart />
+            </div>
+          </div>
+  
+          {/* CHARTS BOTTOM */}
+          <div className=""></div>
+        </div>
+  
+        {/* ========================== RIGHT ========================== */}
+        <div className="w-full lg:w-1/3">right</div>
+      </div>
+    );
+  };
+  
+  export default AdminPage;
+  
+  ```
+  
+  
+
+
+
+### Components: UserCard
+
+- src/components/UserCard.tsx
+
+  ```tsx
+  import Image from "next/image";
+  
+  const UserCard = ({ type }: { type: string }) => {
+    return (
+      <div className="rounded-2xl odd:bg-lamaPurple even:bg-lamaYellow p-4 flex-1 min-w-[130px]">
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] bg-white px-2 py-1 rounded-full text-green-600">
+            2024.10
+          </span>
+          <Image src="/more.png" alt="" width={20} height={20} />
+        </div>
+  
+        <h1 className="text-2xl font-semibold my-4">4,356</h1>
+        <h2 className="capitalize text-sm font-medium text-gray-500">{type}s</h2>
+      </div>
+    );
+  };
+  
+  export default UserCard;
   
   ```
 
@@ -601,9 +944,214 @@
 
 
 
-### Components: 
+### Components: CountChart
+
+- src/components/CountChart.tsx
+
+  ```tsx
+  "use client";
+  
+  import Image from "next/image";
+  import {
+    RadialBarChart,
+    RadialBar,
+    Legend,
+    ResponsiveContainer,
+  } from "recharts";
+  
+  // https://recharts.org/en-US/examples/SimpleRadialBarChart
+  
+  const data = [
+    {
+      name: "Total",
+      count: 106,
+      fill: "white",
+    },
+    {
+      name: "Boys",
+      count: 53,
+      fill: "#C3EBFA",
+    },
+    {
+      name: "Girls",
+      count: 53,
+      fill: "#FAE27C",
+    },
+  ];
+  
+  const CountChart = () => {
+    return (
+      <div className="bg-white rounded-xl w-full h-full p-4">
+        {/* TITLE */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-lg font-semibold">Students</h1>
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
+  
+        {/* CHART */}
+        <div className="relative w-full h-[75%]">
+          <ResponsiveContainer>
+            <RadialBarChart
+              cx="50%"
+              cy="50%"
+              innerRadius="40%"
+              outerRadius="100%"
+              barSize={32}
+              data={data}
+            >
+              <RadialBar background dataKey="count" />
+            </RadialBarChart>
+          </ResponsiveContainer>
+          <Image
+            src="/maleFemale.png"
+            alt=""
+            width={50}
+            height={50}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+        </div>
+  
+        {/* BOTTOM */}
+        <div className="flex justify-center gap-16">
+          <div className="flex flex-col gap-1">
+            <div className="w-5 h-5 bg-lamaSky rounded-full" />
+            <h1 className="font-bold">34,232</h1>
+            <h2 className="text-xs text-gray-300">Boys (55%)</h2>
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="w-5 h-5 bg-lamaYellow rounded-full" />
+            <h1 className="font-bold">29,332</h1>
+            <h2 className="text-xs text-gray-300">Girls (45%)</h2>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  export default CountChart;
+  
+  ```
+
+  
 
 
+
+### Components: AttendanceChart
+
+- src/components/AttendanceChart.tsx
+
+  ```tsx
+  "use client";
+  
+  import Image from "next/image";
+  import {
+    BarChart,
+    Bar,
+    Rectangle,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+  } from "recharts";
+  
+  // https://recharts.org/en-US/examples/SimpleBarChart
+  
+  const data = [
+    {
+      name: "Mon",
+      present: 4000,
+      absent: 2400,
+    },
+    {
+      name: "Tue",
+      present: 3000,
+      absent: 1398,
+    },
+    {
+      name: "Wed",
+      present: 2000,
+      absent: 9800,
+    },
+    {
+      name: "Thu",
+      present: 2780,
+      absent: 3908,
+    },
+    {
+      name: "Fri",
+      present: 1890,
+      absent: 4800,
+    },
+  ];
+  
+  const AttendanceChart = () => {
+    return (
+      <div className="bg-white rounded-lg p-4 h-full">
+        {/* TITLE */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-lg font-semibold">Attendance</h1>
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
+  
+        {/* CHART */}
+        <ResponsiveContainer width="100%" height="90%">
+          <BarChart width={500} height={300} data={data} barSize={20}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd" />
+  
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tick={{ fill: "#d1d5db" }}
+              tickLine={false}
+            />
+            <YAxis axisLine={false} tick={{ fill: "#d1d5db" }} tickLine={false} />
+  
+            <Tooltip
+              contentStyle={{ borderRadius: "10px", borderColor: "lightgray" }}
+            />
+            <Legend
+              align="left"
+              verticalAlign="top"
+              wrapperStyle={{ paddingTop: "20px", paddingBottom: "20px" }}
+            />
+  
+            <Bar
+              dataKey="present"
+              fill="#C3EBFA"
+              legendType="circle"
+              radius={[10, 10, 0, 0]}
+            />
+            <Bar
+              dataKey="absent"
+              fill="#FAE27C"
+              legendType="circle"
+              radius={[10, 10, 0, 0]}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    );
+  };
+  
+  export default AttendanceChart;
+  
+  ```
+
+  
+
+
+
+### Components: FinanceChart
+
+- src/components/FinanceChart.tsx
+
+  ```tsx
+  
+  ```
+
+  
 
 
 
