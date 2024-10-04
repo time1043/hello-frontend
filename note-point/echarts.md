@@ -12,13 +12,35 @@
 
   项目：布局、大屏
 
-  ![](res/echarts/demo-taixin.png)
+  
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 案例
+
+![](res/echarts/demo-taixin.png)
 
 
 
