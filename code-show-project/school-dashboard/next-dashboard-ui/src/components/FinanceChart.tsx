@@ -17,75 +17,63 @@ import {
 const data = [
   {
     name: "Jan",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    income: 4000,
+    expense: 2400,
   },
   {
     name: "Feb",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    income: 3000,
+    expense: 1398,
   },
   {
     name: "Mar",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    income: 2000,
+    expense: 9800,
   },
   {
     name: "Apr",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    income: 2780,
+    expense: 3908,
   },
   {
     name: "May",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    income: 1890,
+    expense: 4800,
   },
   {
     name: "Jun",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    income: 2390,
+    expense: 3800,
   },
   {
     name: "Jul",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    income: 3490,
+    expense: 4300,
   },
   {
     name: "Aug",
-    uv: 4000,
-    pv: 4700,
-    amt: 2100,
+    income: 4000,
+    expense: 4700,
   },
   {
     name: "Sep",
-    uv: 3000,
-    pv: 2400,
-    amt: 2400,
+    income: 3000,
+    expense: 2400,
   },
   {
     name: "Oct",
-    uv: 2000,
-    pv: 1398,
-    amt: 2210,
+    income: 2000,
+    expense: 1398,
   },
   {
     name: "Nov",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    income: 2780,
+    expense: 3908,
   },
   {
     name: "Dec",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    income: 1890,
+    expense: 4800,
   },
 ];
 
@@ -99,7 +87,7 @@ const FinanceChart = () => {
       </div>
 
       {/* CHART */}
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="90%">
         <LineChart
           width={500}
           height={300}
@@ -111,18 +99,41 @@ const FinanceChart = () => {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            tick={{ fill: "#d1d5db" }}
+            tickLine={false}
+            tickMargin={10}
+          />
+          <YAxis
+            axisLine={false}
+            tick={{ fill: "#d1d5db" }}
+            tickLine={false}
+            tickMargin={20}
+          />
+
           <Tooltip />
-          <Legend />
+          <Legend
+            align="center"
+            verticalAlign="top"
+            wrapperStyle={{ paddingTop: "10px", paddingBottom: "30px" }}
+          />
+
           <Line
             type="monotone"
-            dataKey="pv"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
+            dataKey="income"
+            stroke="#C3EBFA"
+            strokeWidth={5}
           />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          <Line
+            type="monotone"
+            dataKey="expense"
+            stroke="#FAE27C"
+            strokeWidth={5}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>

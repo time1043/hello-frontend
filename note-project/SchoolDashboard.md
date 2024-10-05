@@ -159,7 +159,7 @@
   
   # components
   touch src/components/Menu.tsx src/components/NavBar.tsx
-  touch src/components/UserCard.tsx src/components/CountChart.tsx src/components/AttendanceChart.tsx src/components/FinanceChart.tsx
+  touch src/components/UserCard.tsx src/components/CountChart.tsx src/components/AttendanceChart.tsx src/components/FinanceChart.tsx src/components/EventCalendar.tsx src/components/Announcements.tsx src/components/BigCalender.tsx
   
   ```
   
@@ -197,6 +197,30 @@
   
   ```
 
+- src/app/globals.css (全局样式)
+
+  ```css
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  .react-calendar {
+    width: 100% !important;
+    border: none !important;
+    font-family: "Inter", sans-serif !important;
+  }
+  
+  .react-calendar__navigation__label__labelText {
+    font-weight: 600;
+  }
+  
+  .react-calendar__title--active {
+    background-color: #c3ebfa !important;
+    color: black !important;
+  }
+  
+  ```
+
   
 
 
@@ -206,10 +230,13 @@
 - 图表
 
   ```bash
-  npm install recharts
+  # https://recharts.org/en-US/
+  # https://www.npmjs.com/package/react-calendar
+  # https://www.npmjs.com/package/react-big-calendar
+  npm install recharts react-calendar react-big-calendar moment
   
   ```
-
+  
   
 
 
@@ -624,7 +651,7 @@
             className="flex items-center justify-center lg:justify-start gap-2"
           >
             <Image src="/logo.png" alt="logo" width={32} height={32} />
-            <span className="hidden lg:block">School Dashboard</span>
+            <span className="hidden lg:block font-bold">School Dashboard</span>
           </Link>
   
           <Menu />
@@ -649,7 +676,10 @@
 
 - src/components/Menu.tsx 
 
+  根据身份分发菜单
+  
   ```tsx
+  import { role } from "@/lib/data";
   import Image from "next/image";
   import Link from "next/link";
   
@@ -776,16 +806,21 @@
             <span className="hidden lg:block text-gray-400 font-light my-4">
               {i.title}
             </span>
-            {i.items.map((item) => (
-              <Link
-                href={item.href}
-                key={item.label}
-                className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2"
-              >
-                <Image src={item.icon} alt="" width={20} height={20} />
-                <span className="hidden lg:block">{item.label}</span>
-              </Link>
-            ))}
+            {i.items.map((item) => {
+              // Check if the current user has access to the menu item
+              if (item.visible.includes(role)) {
+                return (
+                  <Link
+                    href={item.href}
+                    key={item.label}
+                    className="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight"
+                  >
+                    <Image src={item.icon} alt="" width={20} height={20} />
+                    <span className="hidden lg:block">{item.label}</span>
+                  </Link>
+                );
+              }
+            })}
           </div>
         ))}
       </div>
@@ -795,7 +830,7 @@
   export default Menu;
   
   ```
-
+  
   
 
 
@@ -863,11 +898,14 @@
 
   Left(Top): UserCard; CountChart + AttendanceChart; FinanceChart
 
-  Right(button): 
+  Right(button): EventCalendar; Announcements
 
   ```tsx
+  import Announcements from "@/components/Announcements";
   import AttendanceChart from "@/components/AttendanceChart";
   import CountChart from "@/components/CountChart";
+  import EventCalendar from "@/components/EventCalendar";
+  import FinanceChart from "@/components/FinanceChart";
   import UserCard from "@/components/UserCard";
   
   const AdminPage = () => {
@@ -896,11 +934,16 @@
           </div>
   
           {/* CHARTS BOTTOM */}
-          <div className=""></div>
+          <div className="w-full h-[500px]">
+            <FinanceChart />
+          </div>
         </div>
   
         {/* ========================== RIGHT ========================== */}
-        <div className="w-full lg:w-1/3">right</div>
+        <div className="w-full lg:w-1/3 flex flex-col gap-8">
+          <EventCalendar />
+          <Announcements />
+        </div>
       </div>
     );
   };
@@ -1148,6 +1191,292 @@
 - src/components/FinanceChart.tsx
 
   ```tsx
+  "use client";
+  
+  import Image from "next/image";
+  import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+  } from "recharts";
+  
+  // https://recharts.org/en-US/examples/SimpleLineChart
+  
+  const data = [
+    {
+      name: "Jan",
+      income: 4000,
+      expense: 2400,
+    },
+    {
+      name: "Feb",
+      income: 3000,
+      expense: 1398,
+    },
+    {
+      name: "Mar",
+      income: 2000,
+      expense: 9800,
+    },
+    {
+      name: "Apr",
+      income: 2780,
+      expense: 3908,
+    },
+    {
+      name: "May",
+      income: 1890,
+      expense: 4800,
+    },
+    {
+      name: "Jun",
+      income: 2390,
+      expense: 3800,
+    },
+    {
+      name: "Jul",
+      income: 3490,
+      expense: 4300,
+    },
+    {
+      name: "Aug",
+      income: 4000,
+      expense: 4700,
+    },
+    {
+      name: "Sep",
+      income: 3000,
+      expense: 2400,
+    },
+    {
+      name: "Oct",
+      income: 2000,
+      expense: 1398,
+    },
+    {
+      name: "Nov",
+      income: 2780,
+      expense: 3908,
+    },
+    {
+      name: "Dec",
+      income: 1890,
+      expense: 4800,
+    },
+  ];
+  
+  const FinanceChart = () => {
+    return (
+      <div className="bg-white rounded-lg p-4 h-full">
+        {/* TITLE */}
+        <div className="flex justify-between items-center">
+          <h1 className="text-lg font-semibold">Finance</h1>
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
+  
+        {/* CHART */}
+        <ResponsiveContainer width="100%" height="90%">
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+  
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tick={{ fill: "#d1d5db" }}
+              tickLine={false}
+              tickMargin={10}
+            />
+            <YAxis
+              axisLine={false}
+              tick={{ fill: "#d1d5db" }}
+              tickLine={false}
+              tickMargin={20}
+            />
+  
+            <Tooltip />
+            <Legend
+              align="center"
+              verticalAlign="top"
+              wrapperStyle={{ paddingTop: "10px", paddingBottom: "30px" }}
+            />
+  
+            <Line
+              type="monotone"
+              dataKey="income"
+              stroke="#C3EBFA"
+              strokeWidth={5}
+            />
+            <Line
+              type="monotone"
+              dataKey="expense"
+              stroke="#FAE27C"
+              strokeWidth={5}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    );
+  };
+  
+  export default FinanceChart;
+  
+  ```
+  
+  
+
+
+
+### Components: EventCalendar
+
+- src/components/EventCalendar.tsx
+
+  ```tsx
+  "use client";
+  
+  import Image from "next/image";
+  import { useState } from "react";
+  import Calendar from "react-calendar";
+  import "react-calendar/dist/Calendar.css";
+  
+  // https://www.npmjs.com/package/react-calendar
+  
+  type ValuePiece = Date | null;
+  type Value = ValuePiece | [ValuePiece, ValuePiece];
+  
+  // TEMPORARY
+  const events = [
+    {
+      id: 1,
+      title: "Lorem ipsum dolor",
+      time: "12:00 PM - 2:00 PM",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+    {
+      id: 2,
+      title: "Lorem ipsum dolor",
+      time: "12:00 PM - 2:00 PM",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+    {
+      id: 3,
+      title: "Lorem ipsum dolor",
+      time: "12:00 PM - 2:00 PM",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+  ];
+  
+  const EventCalendar = () => {
+    const [value, onChange] = useState<Value>(new Date());
+  
+    return (
+      <div className="bg-white p-4 rounded-md">
+        <Calendar locale="en-US" onChange={onChange} value={value} />
+  
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold my-4">Events</h1>
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
+  
+        <div className="flex flex-col gap-4">
+          {events.map((event) => (
+            <div
+              className="p-5 rounded-md border-2 border-gray-100 border-t-4 odd:border-t-lamaSky even:border-t-lamaPurple"
+              key={event.id}
+            >
+              <div className="flex  items-center justify-between">
+                <h1 className="font-semibold text-gray-600">{event.title}</h1>
+                <span className="text-gray-300 text-xs">{event.time}</span>
+              </div>
+              <p className="mt-2 to-gray-400 text-sm">{event.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  
+  export default EventCalendar;
+  
+  ```
+
+  
+
+
+
+### Components: Announcements
+
+- src/components/Announcements.tsx
+
+  ```tsx
+  const Announcements = () => {
+    return (
+      <div className="bg-white p-4 rounded-md">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold">Announcements</h1>
+          <span className="text-xs text-gray-400">View All</span>
+        </div>
+  
+        <div className="flex flex-col gap-4 mt-4">
+          {/* Announcement 1 */}
+          <div className="bg-lamaSkyLight rounded-md p-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-medium">Lorem ipsum dolor sit</h2>
+              <span className="text-xs text-gray-400 bg-white rounded-md px-1 py-1">
+                2025-01-01
+              </span>
+            </div>
+            <p className="text-sm text-gray-400 mt-1">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
+              expedita. Rerum, quidem facilis?
+            </p>
+          </div>
+          {/* Announcement 2 */}
+          <div className="bg-lamaPurpleLight rounded-md p-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-medium">Lorem ipsum dolor sit</h2>
+              <span className="text-xs text-gray-400 bg-white rounded-md px-1 py-1">
+                2025-01-01
+              </span>
+            </div>
+            <p className="text-sm text-gray-400 mt-1">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
+              expedita. Rerum, quidem facilis?
+            </p>
+          </div>
+          {/* Announcement 3 */}
+          <div className="bg-lamaYellowLight rounded-md p-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-medium">Lorem ipsum dolor sit</h2>
+              <span className="text-xs text-gray-400 bg-white rounded-md px-1 py-1">
+                2025-01-01
+              </span>
+            </div>
+            <p className="text-sm text-gray-400 mt-1">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum,
+              expedita. Rerum, quidem facilis?
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  export default Announcements;
   
   ```
 
@@ -1157,21 +1486,53 @@
 
 ### Page: student ✔
 
-- 
+- src/app/dashboard/student/page.tsx
+
+  Left(Top): BigCalender
+
+  Right(button): EventCalendar; Announcements
+
+  ```tsx
+  
+  ```
+
+  
+
+
+
+### Components: BigCalender
+
+- src/components/BigCalender.tsx
+
+  ```tsx
+  
+  ```
+
+  
 
 
 
 ### Page: teacher ✔
 
-- 
+- src/app/dashboard/teacher/page.tsx
+
+  ```tsx
+  
+  ```
+
+  
 
 
 
 ### Page: parent ✔
 
-- 
+- src/app/dashboard/parent/page.tsx
 
+  ```tsx
+  
+  ```
 
+  
 
 
 
