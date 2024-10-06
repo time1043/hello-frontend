@@ -233,7 +233,8 @@
   # https://recharts.org/en-US/
   # https://www.npmjs.com/package/react-calendar
   # https://www.npmjs.com/package/react-big-calendar
-  npm install recharts react-calendar react-big-calendar moment
+  npm install recharts \
+    react-calendar @types/react-big-calendar moment
   
   ```
   
