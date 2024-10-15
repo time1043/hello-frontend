@@ -1,4 +1,4 @@
-// node model/langchain_llm.js
+// node modelo/langchain_llm.js
 import { ChatOpenAI } from "@langchain/openai"; // npm install -S langchain  // npm install @langchain/openai
 import config from "../config.js";
 
