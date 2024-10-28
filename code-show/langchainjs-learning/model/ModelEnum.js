@@ -1,5 +1,6 @@
 const LangchainModelEnum = Object.freeze({
   // langchain sdk
+  GPT_4O: "gpt-4o",
   DEEPSEEK_CHAT: "deepseek-chat",
   DEEPSEEK_CODER: "deepseek-coder",
   QWEN_TURBO: "qwen-turbo",

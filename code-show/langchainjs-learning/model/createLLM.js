@@ -2,38 +2,49 @@ import { ChatOpenAI } from "@langchain/openai";
 import config from "../config.js";
 import LangchainModelEnum from "./ModelEnum.js";
 
-// 配置信息
+// 配置信息 (数据库持久化 加密 表格CRUD)
 const {
+  OPENAI_URL_PROXY,
+  OPENAI_API_KEY,
+  DEEPSEEK_URL,
   DEEPSEEK_API_KEY,
+  DASHSCOPE_URL,
   DASHSCOPE_API_KEY,
-  ZHIPU_AI_API_KEY,
+  ZHIPU_URL,
+  ZHIPU_API_KEY,
+  MOONSHOT_URL,
   MOONSHOT_API_KEY,
 } = config;
 
 const modelConfigs = {
+  [LangchainModelEnum.GPT_4O]: {
+    apiKey: OPENAI_API_KEY,
+    baseURL: OPENAI_URL_PROXY,
+    model: "gpt-4o",
+  },
   [LangchainModelEnum.DEEPSEEK_CHAT]: {
     apiKey: DEEPSEEK_API_KEY,
-    baseURL: "https://api.deepseek.com",
+    baseURL: DEEPSEEK_URL,
     model: "deepseek-chat",
   },
   [LangchainModelEnum.DEEPSEEK_CODER]: {
     apiKey: DEEPSEEK_API_KEY,
-    baseURL: "https://api.deepseek.com",
+    baseURL: DEEPSEEK_URL,
     model: "deepseek-coder",
   },
   [LangchainModelEnum.QWEN_TURBO]: {
     apiKey: DASHSCOPE_API_KEY,
-    baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    baseURL: DASHSCOPE_URL,
     model: "qwen-turbo",
   },
   [LangchainModelEnum.GLM_4]: {
-    apiKey: ZHIPU_AI_API_KEY,
-    baseURL: "https://open.bigmodel.cn/api/paas/v4",
+    apiKey: ZHIPU_API_KEY,
+    baseURL: ZHIPU_URL,
     model: "glm-4",
   },
   [LangchainModelEnum.MOONSHOT_V1_8K]: {
     apiKey: MOONSHOT_API_KEY,
-    baseURL: "https://api.moonshot.cn/v1",
+    baseURL: MOONSHOT_URL,
     model: "moonshot-v1-8k",
   },
 };
