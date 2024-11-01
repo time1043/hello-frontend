@@ -1,0 +1,12 @@
+// 尺寸
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+// flex布局 主轴和交叉轴
+@mixin flex($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}

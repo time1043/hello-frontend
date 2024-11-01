@@ -1,0 +1,66 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #dcdcdc;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  width: 100px;
+  height: 160px;
+}
+
+main > section {
+  position: relative;
+}
+
+main > section > div {
+  position: absolute;
+}
+main > section > div::before, main > section > div::after {
+  display: block;
+  width: 100px;
+  height: 80px;
+  overflow: hidden;
+  text-align: center;
+  font: bold 160px arial;
+  color: white;
+  background-color: #000;
+  border-radius: 5px;
+}
+main > section > div::before {
+  background-color: blue;
+  content: attr(data-after);
+  line-height: 160px;
+}
+main > section > div::after {
+  background-color: red;
+  content: attr(data-before);
+  line-height: 0;
+}
+
+main > section > div:nth-child(2) {
+  width: 100px;
+  height: 80px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: 1s;
+  transform-origin: bottom;
+}
+main > section > div:nth-child(2)::before {
+  transform: rotateX(180deg);
+  line-height: 0;
+  background-color: #000;
+}
+main > section > div:nth-child(2)::after {
+  transform: translateY(-100%);
+  line-height: 160px;
+}/*# sourceMappingURL=hd.css.map */

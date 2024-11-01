@@ -1,0 +1,90 @@
+@use "sass:math";
+@import "vars";
+@import "mixins";
+
+// #################################################
+// 基础样式
+// #################################################
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #dcdcdc;
+  @include size(100vw, 100vh);
+  @include flex();
+}
+
+main {
+  @include size($width, $height);
+  // section { div {} }
+}
+
+// #################################################
+// 翻转数字组件
+// #################################################
+
+// 相对布局 叠罗汉
+main > section {
+  position: relative;
+}
+
+// <div data-before="3" data-after="4"></div>
+main > section > div {
+  position: absolute;
+
+  &::before,
+  &::after {
+    display: block; // 块级
+    @include size($width, math.div($height, 2)); // 尺寸 半高
+    overflow: hidden; // 隐藏溢出
+
+    text-align: center; // 文字居中
+    font: bold $height arial; // 字体加粗 高度 字体
+    color: white; // 字体颜色
+    background-color: $bgColor; // 背景颜色
+    border-radius: 5px; // 圆角
+  }
+
+  &::before {
+    background-color: blue;
+    content: attr(data-after); // 填充数据 [4上] [4下]
+    line-height: $height; // 行高为块的高度
+  }
+
+  &::after {
+    background-color: red;
+    content: attr(data-before); // 填充数据 [3下] [3上]
+    line-height: 0; // 行高为0
+  }
+
+  // &:nth-child(2) {}
+}
+
+// <div data-before="3" data-after="4"></div>
+main > section > div:nth-child(2) {
+  @include size($width, math.div($height, 2)); // 尺寸
+  transform-style: preserve-3d; // 3D旋转效果
+  backface-visibility: hidden; // 旋转后隐藏背面
+  // transform: 5s; // 过渡动画时间
+  transition: 1s; // 过渡动画时间
+  transform-origin: bottom; // 旋转中心点
+
+  &::before {
+    transform: rotateX(180deg); // 180deg 旋转过去
+    line-height: 0; // 行高为0
+    background-color: $bgColor;
+  }
+
+  &::after {
+    transform: translateY(-100%);
+    line-height: $height; // 行高为块的高度
+  }
+}
+
+// #################################################
+// 旋转效果
+// #################################################
